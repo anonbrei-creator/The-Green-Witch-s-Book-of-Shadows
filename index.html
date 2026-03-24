@@ -1,0 +1,2485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Green Witch's Book of Shadows</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5ead5;
+    --parchment-dark: #e8d5b0;
+    --parchment-shadow: #c9b07a;
+    --ink: #2c1a0e;
+    --ink-faded: #5c3d1e;
+    --sage: #6b7c5a;
+    --sage-light: #8a9e72;
+    --sage-muted: #b5c4a0;
+    --earth: #7a5c3a;
+    --earth-dark: #4a3220;
+    --moss: #4a6340;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --rust: #8b4513;
+    --cream: #fdf6e3;
+    --border: #9c7c4a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1008;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, rgba(74,99,64,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(122,92,58,0.1) 0%, transparent 40%);
+    min-height: 100vh;
+    font-family: 'Lora', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* ---- COVER ---- */
+  #cover {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .cover-book {
+    width: min(620px, 94vw);
+    background: var(--earth-dark);
+    border: 3px solid var(--gold);
+    border-radius: 4px 12px 12px 4px;
+    box-shadow: 
+      -8px 0 0 #2a1a08,
+      -12px 4px 20px rgba(0,0,0,0.8),
+      4px 4px 40px rgba(184,134,11,0.2),
+      inset 0 0 80px rgba(0,0,0,0.4);
+    padding: 60px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .cover-book:hover {
+    transform: translateY(-4px) rotate(0.5deg);
+    box-shadow:
+      -8px 0 0 #2a1a08,
+      -14px 8px 30px rgba(0,0,0,0.9),
+      6px 8px 60px rgba(184,134,11,0.3),
+      inset 0 0 80px rgba(0,0,0,0.4);
+  }
+
+  .cover-texture {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(255,255,255,0.02) 8px, rgba(255,255,255,0.02) 9px);
+    pointer-events: none;
+  }
+
+  .cover-vine-border {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(184,134,11,0.4);
+    border-radius: 2px 8px 8px 2px;
+    pointer-events: none;
+  }
+
+  .cover-spine {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 18px;
+    background: linear-gradient(90deg, #1a0e06, var(--earth-dark));
+    border-right: 2px solid var(--gold);
+  }
+
+  .cover-title {
+    font-family: 'Cinzel Decorative', cursive;
+    color: var(--gold-light);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    text-shadow: 0 0 20px rgba(212,168,67,0.4), 0 2px 4px rgba(0,0,0,0.8);
+    line-height: 1.4;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .cover-subtitle {
+    font-family: 'Cinzel', serif;
+    color: var(--sage-muted);
+    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .cover-sigil {
+    font-size: clamp(3rem, 10vw, 5rem);
+    margin: 20px 0;
+    filter: drop-shadow(0 0 12px rgba(184,134,11,0.5));
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(184,134,11,0.4)); }
+    50% { filter: drop-shadow(0 0 18px rgba(184,134,11,0.8)); }
+  }
+
+  .cover-divider {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 20px auto;
+  }
+
+  .cover-open-text {
+    font-family: 'Cinzel', serif;
+    color: var(--sage-light);
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 30px;
+    animation: fade-float 3s ease-in-out infinite;
+  }
+
+  @keyframes fade-float {
+    0%, 100% { opacity: 0.5; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+  }
+
+  /* ---- MAIN BOOK ---- */
+  #book-container {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px 60px;
+  }
+
+  /* NAV */
+  .book-nav {
+    width: min(900px, 96vw);
+    background: var(--earth-dark);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-muted);
+    background: none;
+    border: 1px solid transparent;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--gold-light);
+    border-color: rgba(184,134,11,0.4);
+    background: rgba(184,134,11,0.08);
+  }
+
+  /* PAGES */
+  .page {
+    display: none;
+    width: min(900px, 96vw);
+    animation: page-turn 0.4s ease;
+  }
+
+  .page.active { display: block; }
+
+  @keyframes page-turn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .page-inner {
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
+      linear-gradient(180deg, var(--parchment) 0%, #f0e0c0 50%, var(--parchment-dark) 100%);
+    border: 2px solid var(--parchment-shadow);
+    border-radius: 2px 8px 8px 2px;
+    box-shadow:
+      -6px 0 0 var(--earth-dark),
+      -9px 2px 15px rgba(0,0,0,0.7),
+      2px 2px 20px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-inner::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(90deg, var(--parchment-shadow), transparent);
+    pointer-events: none;
+  }
+
+  .page-header {
+    padding: 40px 50px 20px;
+    border-bottom: 2px solid var(--parchment-shadow);
+    position: relative;
+  }
+
+  .page-chapter {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+  }
+
+  .page-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    color: var(--earth-dark);
+    line-height: 1.3;
+  }
+
+  .page-title-deco {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-top: 12px;
+  }
+
+  .page-body {
+    padding: 30px 50px 50px;
+  }
+
+  /* ENTRY CARDS (Charmed-style) */
+  .entry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .entry-card {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid var(--parchment-shadow);
+    border-radius: 4px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .entry-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 4px 4px 0 0;
+    transition: opacity 0.2s;
+    opacity: 0.6;
+  }
+
+  .entry-card.emotion::before { background: linear-gradient(90deg, #8b5a6b, #c4788a); }
+  .entry-card.life-event::before { background: linear-gradient(90deg, var(--sage), var(--moss)); }
+  .entry-card.energy::before { background: linear-gradient(90deg, var(--earth), var(--rust)); }
+  .entry-card.relationship::before { background: linear-gradient(90deg, var(--gold), #c8963e); }
+
+  .entry-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(44,26,14,0.15);
+    border-color: var(--border);
+  }
+
+  .entry-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 6px;
+  }
+
+  .entry-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .entry-desc {
+    font-size: 0.8rem;
+    color: var(--ink-faded);
+    line-height: 1.5;
+  }
+
+  .entry-arrow {
+    font-size: 0.75rem;
+    color: var(--gold);
+    margin-top: 10px;
+    font-family: 'Cinzel', serif;
+  }
+
+  /* ENTRY DETAIL OVERLAY */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,8,2,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .overlay.open { display: flex; }
+
+  .overlay-box {
+    background: var(--parchment);
+    background-image: linear-gradient(160deg, var(--cream) 0%, var(--parchment) 40%, var(--parchment-dark) 100%);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    width: min(700px, 96vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 50px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.05);
+    animation: overlay-in 0.3s ease;
+  }
+
+  @keyframes overlay-in {
+    from { opacity: 0; transform: scale(0.96) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .overlay-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+    cursor: pointer;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--parchment-shadow);
+    padding: 6px 12px;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .overlay-close:hover {
+    color: var(--ink);
+    border-color: var(--border);
+  }
+
+  .overlay-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+
+  .overlay-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--earth-dark);
+    margin-bottom: 6px;
+  }
+
+  .overlay-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 16px 0 24px;
+  }
+
+  .overlay-section {
+    margin-bottom: 28px;
+  }
+
+  .overlay-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .overlay-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--parchment-shadow), transparent);
+  }
+
+  .overlay-text {
+    font-size: 0.88rem;
+    color: var(--ink-faded);
+    line-height: 1.8;
+    font-style: italic;
+  }
+
+  .overlay-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .overlay-list li {
+    font-size: 0.85rem;
+    color: var(--ink);
+    line-height: 1.7;
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .overlay-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 0.6rem;
+    top: 7px;
+  }
+
+  .overlay-affirmation {
+    background: rgba(107,124,90,0.1);
+    border-left: 3px solid var(--sage);
+    padding: 14px 18px;
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin: 10px 0;
+  }
+
+  .moon-tag {
+    display: inline-block;
+    background: rgba(74,99,64,0.12);
+    border: 1px solid var(--sage);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--moss);
+    margin: 3px 3px 3px 0;
+  }
+
+  /* HERB GLOSSARY */
+  .herb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .herb-card {
+    background: rgba(255,255,255,0.35);
+    border: 1px solid var(--parchment-shadow);
+    border-radius: 4px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .herb-card:hover {
+    background: rgba(255,255,255,0.5);
+    border-color: var(--border);
+    transform: translateY(-2px);
+  }
+
+  .herb-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .herb-element {
+    font-size: 0.7rem;
+    color: var(--sage);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .herb-uses {
+    font-size: 0.78rem;
+    color: var(--ink-faded);
+    line-height: 1.5;
+  }
+
+  /* SIMMER POTS */
+  .simmer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .simmer-card {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid var(--parchment-shadow);
+    border-radius: 4px;
+    padding: 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .simmer-card::after {
+    content: '☽';
+    position: absolute;
+    bottom: -5px;
+    right: 10px;
+    font-size: 3rem;
+    color: var(--gold-light);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .simmer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(44,26,14,0.15);
+    border-color: var(--border);
+  }
+
+  .simmer-intent {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .simmer-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .simmer-desc {
+    font-size: 0.8rem;
+    color: var(--ink-faded);
+    line-height: 1.5;
+  }
+
+  /* MOON PHASES */
+  .moon-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .moon-card {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid var(--parchment-shadow);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .moon-card:hover {
+    background: rgba(255,255,255,0.5);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .moon-symbol {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 6px rgba(184,134,11,0.3));
+  }
+
+  .moon-phase-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .moon-phase-intent {
+    font-size: 0.75rem;
+    color: var(--sage);
+    line-height: 1.4;
+  }
+
+  /* CHORES PAGE */
+  .chore-section {
+    margin-bottom: 32px;
+  }
+
+  .chore-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--earth);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--parchment-shadow);
+  }
+
+  .chore-item {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px dashed rgba(156,124,74,0.3);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .chore-item:hover { background: rgba(255,255,255,0.2); border-radius: 4px; padding: 16px 10px; }
+
+  .chore-emoji {
+    font-size: 1.6rem;
+    min-width: 40px;
+    text-align: center;
+    line-height: 1;
+    padding-top: 3px;
+  }
+
+  .chore-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .chore-chakra {
+    font-size: 0.72rem;
+    color: var(--sage);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .chore-desc {
+    font-size: 0.8rem;
+    color: var(--ink-faded);
+    line-height: 1.5;
+  }
+
+  /* INTRO TEXT */
+  .intro-text {
+    font-size: 0.9rem;
+    color: var(--ink-faded);
+    line-height: 1.9;
+    font-style: italic;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: rgba(255,255,255,0.3);
+    border-left: 3px solid var(--sage);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .page-body, .page-header { padding-left: 22px; padding-right: 22px; }
+    .overlay-box { padding: 30px 20px; }
+    .entry-grid, .simmer-grid { grid-template-columns: 1fr; }
+  }
+
+  .pulse-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-right: 6px;
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  .back-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .back-btn:hover { color: var(--gold-light); border-color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div id="cover" onclick="openBook()">
+  <div class="cover-book">
+    <div class="cover-spine"></div>
+    <div class="cover-texture"></div>
+    <div class="cover-vine-border"></div>
+    <div class="cover-sigil">🌿</div>
+    <div class="cover-title">The Green Witch's<br>Book of Shadows</div>
+    <div class="cover-divider"></div>
+    <div class="cover-subtitle">A Living Grimoire of Intentional Practice</div>
+    <div class="cover-divider"></div>
+    <div style="font-size:1.5rem; margin: 10px 0; color: rgba(212,168,67,0.5)">✦ ✧ ✦</div>
+    <div class="cover-open-text">Click to Open</div>
+  </div>
+</div>
+
+<!-- OPEN BOOK -->
+<div id="book-container">
+
+  <div style="padding: 20px 0 8px; text-align:center;">
+    <button class="back-btn" onclick="closeBook()">← Close the Book</button>
+  </div>
+
+  <!-- NAV -->
+  <nav class="book-nav">
+    <button class="nav-btn active" onclick="showPage('intentions',this)">🌒 Intentions & Entries</button>
+    <button class="nav-btn" onclick="showPage('chores',this)">🧹 Sacred Chores</button>
+    <button class="nav-btn" onclick="showPage('simmer',this)">🌿 Simmer Pots</button>
+    <button class="nav-btn" onclick="showPage('herbs',this)">🌱 Herb Glossary</button>
+    <button class="nav-btn" onclick="showPage('moon',this)">🌕 Moon Phases</button>
+    <button class="nav-btn" onclick="showPage('crystals',this)">💎 Crystals</button>
+    <button class="nav-btn" onclick="showPage('chakras',this)">☯ Chakras</button>
+  </nav>
+
+  <!-- PAGE: INTENTIONS -->
+  <div class="page active" id="page-intentions">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter I</div>
+        <div class="page-title">Intentions, Entries & Remedies</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          As the Charmed Book named its demons, so too does this grimoire name what we face — not to fear it, but to meet it with intention. Each entry names the affliction and prescribes the intentional action that will move, clear, or transform it.
+        </p>
+        <div class="entry-grid" id="entry-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: SACRED CHORES -->
+  <div class="page" id="page-chores">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter II</div>
+        <div class="page-title">Sacred Chores & Chakra Healing</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          The home is your temple. Every act of tending it is an act of tending yourself. What we do with our hands, we do with our energy. The most powerful healing often lives in the most ordinary moments — the sweep of a broom, the scrub of a surface, the folding of cloth. Each chore below has an energetic counterpart. Do them with intention, and they become ritual.
+        </p>
+        <div id="chores-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: SIMMER POTS -->
+  <div class="page" id="page-simmer">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter III</div>
+        <div class="page-title">Simmer Pots & Kitchen Cauldron</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          The simmer pot is one of the oldest forms of hearth magic. Fill your pot with intention. Each ingredient is chosen, not just for its fragrance, but for its energetic resonance. Stir clockwise to draw in; counterclockwise to release. Let the steam carry your wishes through every room. The four elements are always present: water holds the spell, earth is in the botanicals, fire is the heat below, and air carries it all.
+        </p>
+        <p style="font-size:0.8rem; color:var(--sage); font-family:'Cinzel',serif; letter-spacing:0.15em; text-transform:uppercase; margin-bottom: 16px;">Base Instructions: Fill pot ¾ with water. Bring to boil, reduce to simmer. Add ingredients with intention. Stir clockwise to attract, counterclockwise to release. Keep water topped off. Discard ingredients in compost when done.</p>
+        <div class="simmer-grid" id="simmer-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: HERBS -->
+  <div class="page" id="page-herbs">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter IV</div>
+        <div class="page-title">The Herb Glossary</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          Every plant has a story — one rooted in the soil but also in centuries of symbolism, folk practice, and energetic correspondence. Learn these allies. Work with one or two at a time. Build a relationship before expanding your apothecary.
+        </p>
+        <div id="herb-az-nav" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:24px;padding:12px;background:rgba(255,255,255,0.3);border:1px solid var(--parchment-shadow);border-radius:4px;"></div>
+        <div id="herb-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: MOON PHASES -->
+  <div class="page" id="page-moon">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter V</div>
+        <div class="page-title">Moon Phases & Timing</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          The moon governs tides, cycles, and the deep interior rhythms of the body. As witches, we align our working with her phases — not because we must, but because doing so places us in harmony with natural forces that have been honored for millennia. Each phase below is a doorway. Click to learn what lives behind it.
+        </p>
+        <div class="moon-row" id="moon-grid"></div>
+
+        <div style="margin-top:40px;">
+          <div style="font-family:'Cinzel Decorative',cursive;font-size:1.1rem;color:var(--earth-dark);margin-bottom:6px;">Moon Water</div>
+          <div style="width:60px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:18px;"></div>
+          <p class="intro-text" style="margin-bottom:16px;">Moon water is one of the simplest and most potent tools in the green witch's practice. It is water charged with the light and energy of the moon — and by your intention. Use it anywhere you would use water, and the spell is already cast.</p>
+          <div id="moon-water-box"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: CRYSTALS -->
+  <div class="page" id="page-crystals">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter VI</div>
+        <div class="page-title">Crystal & Stone Directory</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          Crystals are gifts from deep within the earth — each one a record of time, pressure, and transformation. They hold, amplify, and direct energy. You don't need many. Start with one that calls to you. Learn it. Work with it. Let your collection grow the way trust grows — slowly, and with attention.
+        </p>
+        <div class="herb-grid" id="crystal-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: CHAKRAS -->
+  <div class="page" id="page-chakras">
+    <div class="page-inner">
+      <div class="page-header">
+        <div class="page-chapter">Chapter VII</div>
+        <div class="page-title">The Chakra System</div>
+        <div class="page-title-deco"></div>
+      </div>
+      <div class="page-body">
+        <p class="intro-text">
+          The word chakra comes from Sanskrit, meaning wheel or disk. The chakras are seven spinning energy centers running along the spine from the base to the crown of the head. They are the bridge between the physical body and the energetic body — each one governing a different dimension of your life. When they flow freely, you flow freely. When one is blocked, you feel it — in your body, your emotions, your relationships, and your spirit. Click any chakra to open its full guide.
+        </p>
+        <div class="herb-grid" id="chakra-grid"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /book-container -->
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-box" id="overlay-content">
+    <button class="overlay-close" onclick="closeOverlay()">✕ Close</button>
+    <div id="overlay-inner"></div>
+  </div>
+</div>
+
+<script>
+// All data stored in proper JSON to avoid apostrophe/quote issues
+const entries = [
+  {
+    id: "grief", tag: "Emotion", type: "emotion", name: "Grief",
+    short: "The weight that has no edges. When loss has hollowed you out.",
+    chakra: "Heart (Anahata) & Throat (Vishuddha)",
+    symptoms: ["Heaviness in chest", "Inability to speak what hurts", "Withdrawal", "Exhaustion without cause"],
+    intention: "I make space for this grief. I do not rush it out the door. I allow it to move through me the way water moves through stone — slowly, gently reshaping what it touches.",
+    actions: [
+      "Brew rose and chamomile tea. Sit with it before you drink it. Whisper your loss into the cup.",
+      "Write a letter to what you lost — a person, a version of yourself, a time. You don't have to send it anywhere.",
+      "Walk barefoot in soil or grass. Let the earth hold some of the weight.",
+      "Light a white candle and name one thing you are grateful you had.",
+      "Place rose quartz over your heart while you rest. Rose is the herb of grief and mending alike."
+    ],
+    herbs: ["Rose (heart healing, mending a broken heart)", "Chamomile (soothe a worried soul)", "Lavender (calm and emotional balance)"],
+    moon: ["Waning Moon (releasing)", "New Moon (space to begin again)"],
+    simmer: "Rose Petal, Vanilla & Cinnamon Simmer — warmth, love, comfort",
+    affirmation: "I am allowed to grieve. My love was real. My grief is proof of it."
+  },
+  {
+    id: "anxiety", tag: "Emotion", type: "emotion", name: "Anxiety",
+    short: "When the mind races ahead of the body, living in futures that haven't happened yet.",
+    chakra: "Root (Muladhara) & Solar Plexus (Manipura)",
+    symptoms: ["Racing thoughts", "Chest tightness", "Feeling unmoored", "Fear without a clear source"],
+    intention: "I return to my body. I return to this breath. The only moment I need to survive is this one.",
+    actions: [
+      "Press both feet flat to the floor. Feel the ground under you. You are held.",
+      "Make a chamomile and lavender simmer pot — let the scent do the work.",
+      "Do a grounding chore: sweep the floor with intention, pushing the anxious energy out the front door.",
+      "Carry hematite or black tourmaline — both are root chakra stones for stability.",
+      "Breathe 4 counts in, hold 4, out 6. Repeat 4 times. This signals safety to your nervous system.",
+      "Name 5 things you can see, 4 you can touch, 3 you can hear. Plant yourself in the now."
+    ],
+    herbs: ["Chamomile (calm, harmony)", "Lavender (peace, emotional balance)", "Lemon Balm (calm and clarity)", "Valerian (deep calm, nervous system)"],
+    moon: ["New Moon (setting intention for peace)", "Waning Moon (releasing spiraling thoughts)"],
+    simmer: "Chamomile, Lavender & Lemon Peel Simmer — calm, grounding",
+    affirmation: "I am safe in this body. I am safe in this moment. The earth is beneath me and I am held."
+  },
+  {
+    id: "anger", tag: "Emotion", type: "emotion", name: "Anger",
+    short: "Righteous fire. Anger is information — but it must move, or it festers.",
+    chakra: "Solar Plexus (Manipura) & Sacral (Svadhisthana)",
+    symptoms: ["Heat in the chest", "Clenched jaw or fists", "Desire to destroy or withdraw", "Feeling unheard or violated"],
+    intention: "This anger has something to teach me. I let it speak. I hear what it says. And then I choose what to do with its energy.",
+    actions: [
+      "Move your body hard — scrub something, sweep aggressively, fold laundry with force. Give the energy somewhere to go.",
+      "Write what you are angry about. Burn the paper safely in a fireproof vessel. Watch it go.",
+      "Simmer pot with ginger, orange peel, and black pepper to transmute fire into clarity.",
+      "Do NOT stuff it. Say to yourself: I am allowed to be angry. Now what does this anger need?",
+      "Practice the solar plexus affirmation: I stand in my power. My boundaries are sacred."
+    ],
+    herbs: ["Ginger (transmutation, fire energy)", "Orange Peel (warmth, positivity)", "Black Pepper (protection, clarity)", "Rosemary (purification after conflict)"],
+    moon: ["Waning Moon (release and banish)", "Full Moon (peak release rituals)"],
+    simmer: "Ginger, Orange & Black Pepper Simmer — transmute, clarify, release",
+    affirmation: "My anger is valid. My anger is not my identity. I use its fire to light my way forward."
+  },
+  {
+    id: "stagnation", tag: "Emotion", type: "emotion", name: "Stagnation",
+    short: "The flat grey nothing. When motivation has gone quiet and forward feels impossible.",
+    chakra: "Root (Muladhara) & Sacral (Svadhisthana)",
+    symptoms: ["Inability to start things", "Flat affect", "Avoidance", "Feeling stuck in amber"],
+    intention: "I do not need to run. I only need to take one step. Movement creates momentum.",
+    actions: [
+      "Start with the smallest possible action. Wash one dish. That is the spell.",
+      "Open every window and door in your space. Let air move where energy cannot yet.",
+      "Declutter one drawer or surface. Stagnant spaces breed stagnant feelings.",
+      "Make a citrus and mint simmer pot — these wake up the sacral and root chakras.",
+      "Wear or carry carnelian — the sacral chakra stone for creativity and movement.",
+      "Play bass-heavy or drumming music while you move through the house."
+    ],
+    herbs: ["Peppermint (clarity, action, fresh energy)", "Citrus peel (solar, activating)", "Cinnamon (fast action, fire)", "Ginger (momentum, vitality)"],
+    moon: ["Waxing Moon (growth and momentum)", "New Moon (fresh start intention)"],
+    simmer: "Citrus, Mint & Cinnamon Simmer — wake up, move, begin",
+    affirmation: "I begin. That is enough. The path becomes clear as I walk it."
+  },
+  {
+    id: "conflict", tag: "Life Event", type: "life-event", name: "Conflict",
+    short: "When two energies can't occupy the same space in peace.",
+    chakra: "Throat (Vishuddha) & Heart (Anahata)",
+    symptoms: ["Words unsaid or said badly", "Relational rupture", "Choosing between truth and harmony", "Carrying someone else's fire"],
+    intention: "I speak what is true. I listen for what is true in you. Resolution lives between us, not in winning.",
+    actions: [
+      "Before any confrontation, hold your throat gently and breathe. Your voice is a sacred instrument.",
+      "Sweep counterclockwise through the space where the conflict happened, releasing the stuck energy.",
+      "Write your side, then write their side as fairly as you can. Look for the wound underneath the wound.",
+      "Burn rosemary for clarity and purification after difficult conversations.",
+      "Carry blue kyanite or sodalite for clear, calm communication."
+    ],
+    herbs: ["Rosemary (clarity after conflict)", "Lavender (peace between people)", "Chamomile (reduce emotional tension)"],
+    moon: ["Waning Moon (release of resentment)", "Full Moon (illuminate what is true)"],
+    simmer: "Lavender, Rosemary & Rose Simmer — clear the air, invite peace",
+    affirmation: "I can be honest and I can be kind. These are not opposites."
+  },
+  {
+    id: "new-beginnings", tag: "Life Event", type: "life-event", name: "New Beginnings",
+    short: "The tender, electric edge of something not yet fully formed.",
+    chakra: "Root (Muladhara) — must be stable for new growth to take",
+    symptoms: ["Equal parts excitement and fear", "Identity in flux", "Not yet knowing what comes next", "Possibility and overwhelm sharing the same body"],
+    intention: "I plant this intention in rich soil. I water it with action and trust. I do not need to see the whole path — only the next step.",
+    actions: [
+      "New Moon ritual: write your intention on paper. Fold it and bury it in a pot of soil or your garden.",
+      "Make a new beginnings simmer pot: apple, cinnamon, rosemary, and clove. Open the windows as it simmers.",
+      "Clear your physical space before you begin anything new. Your outer world reflects your inner readiness.",
+      "Plant a seed — literally. Watch it daily. This is a spell.",
+      "Write in your journal: What am I ready to become?"
+    ],
+    herbs: ["Apple (new beginnings, transformation)", "Cinnamon (momentum, manifestation)", "Clove (protection of new ventures)", "Basil (success, abundance)"],
+    moon: ["New Moon — this is the IDEAL phase for this entry", "Waxing Crescent (nurture what you've planted)"],
+    simmer: "Apple, Cinnamon & Clove Simmer — welcome what is coming",
+    affirmation: "I am ready. I have been ready. I begin."
+  },
+  {
+    id: "loss", tag: "Life Event", type: "life-event", name: "Loss",
+    short: "When something essential is taken. A person, a chapter, a version of your life.",
+    chakra: "Root (Muladhara) — ground destabilized; Heart (Anahata) — cracked open",
+    symptoms: ["Disorientation", "Questioning what is real or permanent", "Physical heaviness", "Hollow spaces where something used to be"],
+    intention: "What I have lost is real. What I still have is also real. I let myself be in both truths at once.",
+    actions: [
+      "Create a small altar with something that represents what you've lost. Light a candle. Speak your grief aloud.",
+      "Root yourself: feet on earth, hands in soil, back against a tree if you can find one.",
+      "Avoid making major decisions in the acute phase of loss. Let the root chakra settle first.",
+      "Rose and violet for grief and mending. Dill for healing deep-rooted sadness.",
+      "Journal: What did this loss ask of me? What did it give me that I didn't expect?"
+    ],
+    herbs: ["Rose (mending the heart)", "Dill (healing grief and deep sadness)", "Violet (comfort, soothes sorrow)", "Comfrey (grounding, solid foundation)"],
+    moon: ["Dark Moon (sit in the dark, rest)", "Waning Moon (release and let go)", "New Moon (when you are ready, begin again)"],
+    simmer: "Rose, Violet & Vanilla Simmer — comfort, gentleness, warmth",
+    affirmation: "I am allowed to not be okay. The earth holds me even now."
+  },
+  {
+    id: "change", tag: "Life Event", type: "life-event", name: "Change",
+    short: "Transformation is rarely comfortable. It is always necessary.",
+    chakra: "Sacral (Svadhisthana) — adaptability; Root (Muladhara) — need for stable ground during flux",
+    symptoms: ["Resistance to what is already in motion", "Fear of the unknown", "Grief for what is ending", "Excitement you feel guilty about"],
+    intention: "I release my grip on what was. Change is the nature of all living things. I am a living thing.",
+    actions: [
+      "Make a releasing ritual: write what you are leaving behind on a leaf and let it float on water.",
+      "Clean and rearrange a room. This physically embodies the change in your body and energy.",
+      "Work with orange and sacral chakra practices — dancing, creative expression, water near you.",
+      "Burn cedar or thyme for purification and courage through transition.",
+      "Journal: What needs to change? What am I afraid the change will cost me?"
+    ],
+    herbs: ["Thyme (courage, letting go of the past)", "Cedar (purification, strength in transition)", "Mugwort (transformation, inner wisdom)", "Orange Peel (optimism, new energy)"],
+    moon: ["Full Moon (release what no longer serves)", "Waxing Moon (build into new forms)", "New Moon (set intention for what comes next)"],
+    simmer: "Cedar, Thyme & Orange Simmer — courage to let go and step forward",
+    affirmation: "I am being reshaped by this. I trust the hands that are doing the shaping."
+  },
+  {
+    id: "burnout", tag: "Energy State", type: "energy", name: "Burnout",
+    short: "When the well has gone dry and drawing from it hurts.",
+    chakra: "Root (Muladhara) — depleted foundation; Solar Plexus (Manipura) — overextended will",
+    symptoms: ["Exhaustion that sleep doesn't touch", "Cynicism or detachment", "Inability to care about things you used to love", "Body speaking loudly through ache"],
+    intention: "I am not a machine. Rest is not laziness — it is the soil recovering before the next planting season.",
+    actions: [
+      "Stop doing things. This is the first practice.",
+      "Root chakra restoration: lie on the floor. Actually lie on the floor. Let gravity hold you.",
+      "Make a calming simmer pot with lavender, chamomile, and vanilla. Do nothing while it simmers.",
+      "Eat root vegetables and warm, grounding foods. Your body needs earthing from the inside too.",
+      "Cancel whatever can be cancelled. Protect your restoration as fiercely as you protect your output.",
+      "Hematite and smoky quartz for grounding depleted root chakra energy."
+    ],
+    herbs: ["Lavender (rest, deep calm)", "Chamomile (restore nervous system)", "Ashwagandha (adaptogen, resilience)", "Valerian (deep rest)"],
+    moon: ["Waning Moon (release obligations)", "Dark Moon (rest, do nothing, restore)"],
+    simmer: "Lavender, Chamomile & Vanilla Simmer — slow down, restore, rest",
+    affirmation: "I do not earn rest. I deserve it unconditionally. I am allowed to stop."
+  },
+  {
+    id: "overstimulation", tag: "Energy State", type: "energy", name: "Overstimulation",
+    short: "When the input has exceeded what the system can process.",
+    chakra: "Crown (Sahasrara) — overwhelm; Root (Muladhara) — need to come back to body",
+    symptoms: ["Sensory overwhelm", "Irritability without known cause", "Inability to think clearly", "Wanting to disappear or go quiet"],
+    intention: "I do not have to take everything in. I am allowed to close the window.",
+    actions: [
+      "Go somewhere dark and quiet. This is not avoidance — this is triage.",
+      "Grounding exercise: press both palms to the floor or earth. Breathe from your belly.",
+      "Dim the lights. Silence the devices. This is a complete practice.",
+      "Mugwort tea for clarity and nervous system reset.",
+      "Run cool water over your wrists and inner arms. Feel yourself return.",
+      "Black tourmaline near you for energetic shielding."
+    ],
+    herbs: ["Mugwort (psychic protection, nervous reset)", "Lavender (calm overwhelming input)", "Lemon Balm (gentle nervous system ally)", "Skullcap (calm racing overwhelm)"],
+    moon: ["Waning Crescent (rest, draw inward)", "Dark Moon (silence, stillness, protection)"],
+    simmer: "Lavender, Lemon Peel & Mint Simmer — clear the air, quiet the noise",
+    affirmation: "My sensitivity is a gift. I am allowed to protect it."
+  },
+  {
+    id: "disconnection", tag: "Energy State", type: "energy", name: "Disconnection",
+    short: "When you have drifted from yourself, from others, from something larger.",
+    chakra: "Root (Muladhara) — ungrounded; Heart (Anahata) — isolated",
+    symptoms: ["Feeling like you are watching yourself from outside", "Numbness", "Unable to access joy or caring", "Everything feels distant or muffled"],
+    intention: "I choose to return. To this body. To this earth. To this moment. Reconnection is always available.",
+    actions: [
+      "Earthing: go outside and put your bare feet on actual earth. Stay for at least 10 minutes.",
+      "Make something with your hands — cook, garden, knead, fold. Physicality is the door back in.",
+      "Call someone. Don't explain yourself — just be in their voice.",
+      "Root chakra meditation: imagine red light at the base of your spine, roots growing down into the earth.",
+      "Carry hematite — the grounding stone for reconnecting to physical reality."
+    ],
+    herbs: ["Comfrey (grounding, foundation)", "Hyssop (purification, reconnection)", "Vetiver (deeply grounding)", "Cedar (roots, connection to ancestors and earth)"],
+    moon: ["New Moon (intention to reconnect)", "Full Moon (come back to yourself)"],
+    simmer: "Cedarwood, Rosemary & Clove Simmer — roots, presence, return",
+    affirmation: "I am here. I am in this body. The earth knows my name."
+  },
+  {
+    id: "trust-broken", tag: "Relationship Dynamic", type: "relationship", name: "Broken Trust",
+    short: "When the contract between two people has been violated.",
+    chakra: "Heart (Anahata) — wounded; Solar Plexus (Manipura) — identity shaken",
+    symptoms: ["Hypervigilance", "Difficulty being vulnerable again", "Anger layered over grief", "Questioning your own perception"],
+    intention: "I honor the wound. I do not pretend it didn't happen. I decide — with full awareness — what comes next.",
+    actions: [
+      "Don't rush healing. Trust rebuilds slowly, like bone.",
+      "Journal: What did this teach me about my own needs? About what I won't compromise?",
+      "Rose quartz for the heart. Rhodonite for forgiveness — when you are ready, not before.",
+      "Protective herbs in your space: rosemary at the door, black tourmaline in corners.",
+      "Sage your space after difficult relationship encounters to clear residual energy."
+    ],
+    herbs: ["Rose (heart healing)", "Rosemary (protection, clarity)", "Yarrow (protection of the heart)", "Thyme (release of past pain)"],
+    moon: ["Waning Moon (release what was done to you)", "New Moon (set boundaries and begin fresh terms)"],
+    simmer: "Rose, Yarrow & Rosemary Simmer — protect the heart while it heals",
+    affirmation: "I am not naive for having trusted. I am wise for knowing what I will do now."
+  },
+  {
+    id: "longing", tag: "Relationship Dynamic", type: "relationship", name: "Longing and Distance",
+    short: "When someone you love is not within reach.",
+    chakra: "Heart (Anahata) — aching connection; Throat (Vishuddha) — things unsaid",
+    symptoms: ["Ache without a specific edge", "Wanting to reach for someone who isn't there", "Distance that feels like loss even when it isn't"],
+    intention: "Love is not diminished by distance. The thread between us is not cut by miles or time.",
+    actions: [
+      "Write a letter you may or may not send. Put love in the ink.",
+      "Make a rose and honey simmer pot and direct its energy toward the one you miss.",
+      "Light a pink or red candle for connection. Sit with your feelings rather than away from them.",
+      "Wear or carry rose quartz — amplifies love and feelings of connection across distance.",
+      "Journal: What would you say if you could say anything, right now, no consequences?"
+    ],
+    herbs: ["Rose (love, connection, longing)", "Jasmine (love at a distance, hope)", "Vanilla (warmth, emotional comfort)", "Lemon Balm (sweetness, uplifting heaviness)"],
+    moon: ["Full Moon (amplify intentions of love and connection)", "Waxing Moon (draw the person closer)"],
+    simmer: "Rose, Jasmine & Vanilla Simmer — send love across the distance",
+    affirmation: "What is mine will find its way back to me."
+  }
+];
+
+const choreData = [
+  {
+    section: "Root Chakra (Muladhara) — Grounding, Safety, Stability",
+    sectionNote: "The root chakra is the foundation. It governs survival, security, and your connection to the physical world. It is nourished by anything that makes your home feel safe, ordered, and tended.",
+    items: [
+      { emoji: "🧹", name: "Sweeping and Vacuuming", chakra: "Root Chakra — Primary",
+        desc: "Sweep counterclockwise from the back of the home toward the front door to push stagnant or negative energy out. As you sweep, visualize dense, stuck energy — fear, anxiety, financial worry — being gathered and expelled. The physical act of clearing the floor is a literal root chakra practice: you are tending the ground you stand on. For vacuuming, visualize negativity being drawn in and contained, then empty the canister immediately." },
+      { emoji: "🪟", name: "Washing Windows and Mirrors", chakra: "Root + Third Eye Chakra — Clarity and Ground",
+        desc: "Windows let light and energy in. Dirty windows block both. Cleaning them is an act of inviting clarity into your home and your perception. Wipe in circles, setting the intention: I see clearly. I allow good energy to enter. Mirrors hold energy — keeping them clean maintains the clarity of your own self-perception and the integrity of the energetic boundaries in your home." },
+      { emoji: "🛏️", name: "Making the Bed", chakra: "Root Chakra — Sacred Rest Space",
+        desc: "Your bed is the most intimate space in your home. Making it with intention is a root chakra practice — you are tending the place where your body rests and recovers. As you smooth the sheets, set the intention: This is a space of restoration. I am safe here. I wake from here renewed. Add a sachet of lavender under your pillow for enhanced rest and root energy." },
+      { emoji: "🧺", name: "Doing Laundry", chakra: "Root + Sacral Chakra — Purification, Self-Care",
+        desc: "Your clothes carry the energy of the day — the stress, the interactions, the emotions. Washing them is a ritual of purification. Add a few drops of lavender essential oil to the wash for healing and purification. Fold with care and presence. As you put clothes away, you are restoring order to your personal domain — a deeply grounding act. Hang items to dry in air and sunlight when possible." },
+      { emoji: "🍽️", name: "Washing Dishes", chakra: "Root + Sacral Chakra — Water Element, Daily Ritual",
+        desc: "The rhythm of washing dishes is a meditation. The warm water, the repetitive motion, the transformation from dirty to clean. This is one of the oldest domestic rituals humans perform. Work with the water element: let your worries flow down the drain with the water. Set the intention with each dish: I nourish this home. I tend this space. Add lemon or rosemary to your dish soap for purification energy." },
+      { emoji: "🌿", name: "Tending Plants", chakra: "Root + Heart Chakra — Connection to Earth, Nurturing",
+        desc: "Plants are living beings and green witches know them as allies. Tending your plants — watering, pruning, speaking to them — is a root chakra practice that also nourishes the heart. You are in relationship with the earth when you care for growing things. Whisper your intentions to them. They are listening. Keep rosemary near the door for protection; lavender for calm; chamomile on windowsills for peace." },
+      { emoji: "🗑️", name: "Decluttering and Organizing", chakra: "Root Chakra — Create Space for Safety and Clarity",
+        desc: "Clutter holds stuck energy. It creates conflicting energies and increases the presence of stagnation. When you declutter, you are not just organizing objects — you are opening passages for new energy, opportunity, and clarity. Ask of each object: Does this serve me? Does this belong in the life I am building? Decluttering during the waning moon amplifies the release." }
+    ]
+  },
+  {
+    section: "Solar Plexus Chakra (Manipura) — Power, Will, Confidence",
+    sectionNote: "The solar plexus is your power center. Chores that require sustained effort, discipline, and the act of completing something hard all nourish it.",
+    items: [
+      { emoji: "🚿", name: "Cleaning the Bathroom", chakra: "Solar Plexus + Root Chakra — Discipline, Purification",
+        desc: "The bathroom is where you release and where you cleanse. Keeping it clean and clear is an act of power and self-respect. Completing a task you have been avoiding is one of the fastest ways to restore solar plexus energy. Scrub the tub while repeating: I release what is no longer mine. Add a few drops of eucalyptus or peppermint to your cleaning water for added clearing energy." },
+      { emoji: "🍳", name: "Intentional Cooking", chakra: "Solar Plexus + Sacral Chakra — Nourishment, Creation",
+        desc: "When you cook with intention, you infuse food with the energy you want to embody. Focus on the colors, textures, and aromas. Stir clockwise to call in what you want — health, joy, abundance, love. Root vegetables are grounding; leafy greens are heart chakra food; citrus is solar. By treating meal preparation as a sacred act, you nourish not just bodies but souls. This is kitchen witchery in its purest form." }
+    ]
+  },
+  {
+    section: "Heart and Throat Chakra — Connection, Communication, Space",
+    sectionNote: "Chores that create beauty, invite connection, or clear communication channels.",
+    items: [
+      { emoji: "🌸", name: "Arranging Flowers or Altar Space", chakra: "Heart Chakra — Beauty, Love, Connection",
+        desc: "Creating beauty is a spiritual act. Arranging fresh herbs, flowers, or sacred objects on an altar or windowsill is heart chakra work. You are declaring: this space deserves care. This life deserves beauty. Use flowers and herbs that match your current intention: rose for love and grief, lavender for peace, chamomile for calm, rosemary for protection and memory." },
+      { emoji: "🕯️", name: "Setting Intentional Space", chakra: "Throat + Crown Chakra — Sacred Communication",
+        desc: "Light candles, dim harsh lights, burn incense or simmer herbs. This is the chore of preparing your environment for spiritual work. When you set intentional space, you are signaling — to yourself and to whatever energies you work with — that this time and place are set apart. Even five minutes of this practice before any other ritual work amplifies its potency." }
+    ]
+  }
+];
+
+const choreFlat = [];
+choreData.forEach(function(section) {
+  section.items.forEach(function(item) { choreFlat.push(item); });
+});
+
+const simmerPots = [
+  {
+    intent: "Grief and Comfort", name: "The Rose and Honey Hearth",
+    desc: "For when the heart is heavy and needs warming.",
+    ingredients: ["Dried rose petals", "Vanilla bean (split)", "Cinnamon stick", "1 tbsp honey stirred in", "A pinch of cardamom"],
+    method: "Stir clockwise for warmth and comfort. As the rose opens in the water, visualize your heart being held. Let the sweetness of vanilla and honey remind you that you are worth tending.",
+    moon: "Waning or Dark Moon",
+    affirmation: "I am allowed to be softened by this."
+  },
+  {
+    intent: "Anxiety and Grounding", name: "The Still Waters Blend",
+    desc: "For when the mind won't stop and the body won't land.",
+    ingredients: ["Chamomile flowers (fresh or dried)", "Lavender buds", "Lemon peel", "A sprig of rosemary", "Himalayan salt pinch"],
+    method: "Add each ingredient with a slow exhale. Stir counterclockwise to release the spiral. Let the scent anchor you. Sit near the pot and breathe deliberately.",
+    moon: "Waning Moon or New Moon",
+    affirmation: "I return to my body. I am safe here."
+  },
+  {
+    intent: "New Beginnings and Manifestation", name: "The Threshold Simmer",
+    desc: "For standing at the edge of something new.",
+    ingredients: ["Apple slices", "Cinnamon sticks", "Cloves (3)", "Orange peel", "Bay leaf (write your intention on it first)", "Star anise"],
+    method: "Write your intention on the bay leaf before adding it. Stir clockwise. Open a window as it simmers to release your intention into the world. Visualize the steam carrying your wish outward.",
+    moon: "New Moon — most powerful here",
+    affirmation: "I am already becoming who I need to be."
+  },
+  {
+    intent: "Clearing and Purification", name: "The Clean Sweep Pot",
+    desc: "After conflict, illness, or heavy energy in the home.",
+    ingredients: ["Rosemary sprigs", "Lemon slices", "White vinegar (splash)", "Black pepper (3 cracks)", "Eucalyptus leaves or drops"],
+    method: "Stir counterclockwise to banish. Open all windows while this simmers. Move through the house and let the steam follow you. This is energetic scrubbing — it removes what clings.",
+    moon: "Waning Moon or Full Moon",
+    affirmation: "What no longer belongs here is leaving."
+  },
+  {
+    intent: "Love and Connection", name: "The Heart Thread Simmer",
+    desc: "For longing, distance, or calling in deeper connection.",
+    ingredients: ["Rose petals", "Jasmine flowers or jasmine essential oil", "Vanilla bean", "Hibiscus petals", "Rose water (replace some base water)"],
+    method: "Stir clockwise to draw in. Set your intention aloud: I am open to love. I am worthy of love. I send love across distance. Let the rose water amplify the heart energy throughout your home.",
+    moon: "Full Moon or Waxing Moon",
+    affirmation: "What is mine finds its way to me."
+  },
+  {
+    intent: "Energy and Momentum", name: "The Wake-Up Cauldron",
+    desc: "For stagnation, lethargy, or creative blocks.",
+    ingredients: ["Orange slices", "Cinnamon stick", "Ginger root (sliced)", "Peppermint sprigs", "Lemon peel"],
+    method: "Stir clockwise with intention and energy. This is not a gentle simmer. Play music. Move your body while it heats. Let the citrus and spice shake the room awake.",
+    moon: "Waxing Moon or New Moon",
+    affirmation: "I am in motion. The path clears as I walk."
+  },
+  {
+    intent: "Protection and Warding", name: "The Hearth Guardian",
+    desc: "For setting protective boundaries in your home energy.",
+    ingredients: ["Rosemary sprigs", "Bay leaves (3)", "Black pepper", "Cloves (4)", "Cedar chips or drops", "Pinch of sea salt in water"],
+    method: "As you add each ingredient, name what you are protecting against: harm, ill will, stagnant energy, unwanted influence. Stir counterclockwise first (banishing), then clockwise (drawing in protection).",
+    moon: "Full Moon or Dark Moon",
+    affirmation: "This home is protected. Only what serves us enters here."
+  },
+  {
+    intent: "Grief and Release", name: "The Gentle Letting Go",
+    desc: "For when you are ready to release what has been weighing you.",
+    ingredients: ["Dried violet flowers", "Rose petals", "Dill (fresh or dried)", "Vanilla", "Lavender"],
+    method: "Stir counterclockwise, slow and deliberate. Speak aloud what you are releasing — a name, a memory, an expectation, a version of yourself. Let the scent hold your grief without collapsing under it.",
+    moon: "Waning Moon — the releasing phase",
+    affirmation: "I release this with love. I make space for what is next."
+  }
+];
+
+const herbs = [
+  { name: "Rosemary", latin: "Salvia rosmarinus", element: "Air / Fire", planet: "Sun", season: "Year-round",
+    uses: "Purification, protection, memory, clarity, banishing negativity. The universal herb of protection. Can substitute for almost any herb in protective work.",
+    bonus: "Place at doorways for warding. Burn for purification after conflict." },
+  { name: "Lavender", latin: "Lavandula spp.", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Peace, calm, emotional balance, restful sleep, love, protection. Soothes anxiety and the nervous system. One of the most versatile herbs for emotional healing.",
+    bonus: "Sachet under pillow for sleep. In bath for tension release." },
+  { name: "Chamomile", latin: "Matricaria chamomilla", element: "Water", planet: "Sun", season: "Summer",
+    uses: "Calm, harmony, sleep, love, prosperity, protection. Soothes a worried soul. Re-kindles a sense of childlike ease and wonder.",
+    bonus: "Tea before bed or ritual. Chamomile on windowsills draws peaceful energy." },
+  { name: "Mugwort", latin: "Artemisia vulgaris", element: "Earth", planet: "Venus / Moon", season: "Autumn",
+    uses: "Dreams, divination, psychic protection, inner wisdom, banishment. Called the oldest of herbs in ancient texts. Use for dreamwork and intuition.",
+    bonus: "Burn before divination. Dream pillow. NOT safe in pregnancy." },
+  { name: "Sage (Garden)", latin: "Salvia officinalis", element: "Air", planet: "Jupiter", season: "Autumn",
+    uses: "Cleansing, purification, wisdom, grounding, mental clarity, emotional strength. Absorbs negativity and lifts the spirit.",
+    bonus: "Use garden sage — white sage is sacred to closed Indigenous practices and is overharvested." },
+  { name: "Mint / Peppermint", latin: "Mentha spp.", element: "Air / Fire", planet: "Mercury", season: "Summer",
+    uses: "Clarity, energy, action, fresh beginnings, mental awakening, communication. For when the mind needs to clear and the body needs to move.",
+    bonus: "Grow in separate pots — mint spreads aggressively. Tea for mental clarity." },
+  { name: "Rose", latin: "Rosa spp.", element: "Water", planet: "Venus", season: "Spring / Summer",
+    uses: "Love, compassion, emotional healing, mending a broken heart, divination, spiritual protection. A grief and heart chakra ally across nearly every tradition.",
+    bonus: "Rose water in simmer pots and cleansing washes." },
+  { name: "Basil", latin: "Ocimum basilicum", element: "Fire", planet: "Mars / Venus", season: "Summer",
+    uses: "Abundance, prosperity, love, luck, protection of the home. Associated with fidelity and business success. A kitchen witch staple.",
+    bonus: "Fresh basil on the kitchen windowsill for home abundance." },
+  { name: "Cinnamon", latin: "Cinnamomum verum", element: "Fire", planet: "Sun", season: "Winter",
+    uses: "Fast action, prosperity, momentum, purification, manifestation, warming energy. Amplifies and accelerates spells. High vibrational fire energy.",
+    bonus: "Blow cinnamon across the threshold on the 1st of each month for protection and abundance." },
+  { name: "Lemon Balm", latin: "Melissa officinalis", element: "Water", planet: "Moon", season: "Summer",
+    uses: "Calm, clarity, uplifting heaviness, nervous system support, love, success. Gently lifts mood while calming the nervous system.",
+    bonus: "Tea during stressful transitions. Grows easily in pots." },
+  { name: "Thyme", latin: "Thymus vulgaris", element: "Air / Water", planet: "Venus", season: "Spring",
+    uses: "Courage, releasing the past, emotional trauma healing, purification, vitality. The Greeks believed thyme was born from the tears of Helen of Troy — it carries grief and transforms it.",
+    bonus: "Burn for courage before difficult conversations." },
+  { name: "Bay Leaf", latin: "Laurus nobilis", element: "Fire", planet: "Sun", season: "Year-round",
+    uses: "Protection, manifestation, wishes, wisdom, psychic powers. Write intentions or wishes on bay leaves and burn them to release into the universe.",
+    bonus: "The classic write-it-and-burn-it wish spell." },
+  { name: "Cedar", latin: "Cedrus spp.", element: "Earth / Fire", planet: "Sun / Jupiter", season: "Winter",
+    uses: "Protection, grounding, strength, connection to ancestors, purification. Deeply earthy. Used for spiritual strength and calling on ancestral wisdom.",
+    bonus: "Cedar chips in sachets. Burns beautifully for home protection." },
+  { name: "Dill", latin: "Anethum graveolens", element: "Fire", planet: "Mercury / Jupiter", season: "Summer",
+    uses: "Healing grief and deep sadness, luck, prosperity, protection, joy. An underused ally for emotional healing — particularly grief and deep-rooted sadness.",
+    bonus: "In simmer pots for grief release. Hung in kitchen for luck." },
+  { name: "Clove", latin: "Syzygium aromaticum", element: "Fire", planet: "Jupiter", season: "Winter",
+    uses: "Protection, banishment of hostile forces, love, prosperity. Guards new ventures and protects the home. Warming and strongly protective.",
+    bonus: "Stud an orange with cloves for a protective charm." },
+  { name: "Comfrey", latin: "Symphytum officinale", element: "Earth / Water", planet: "Saturn", season: "Spring",
+    uses: "Grounding, calling in a solid foundation, home and garden protection, safety. An excellent herb for root chakra work and building stable foundations.",
+    bonus: "NOT for internal use — work with energetically or externally only." }
+];
+
+const moonPhases = [
+  { symbol: "🌑", name: "New Moon", energy: "Dark Moon / New Beginnings", timing: "The 3-day dark",
+    intention: "Set intentions. Plant seeds. Begin anew. The slate is completely blank. This is the most powerful time for new beginnings, fresh starts, and intention-setting. Cleanse your space, journal deeply, and ask: what do I want to call in over this cycle?",
+    magic: "New projects, manifesting, intention-setting, divination, cleansing, beginning study or practice",
+    herbs: "Chamomile, lavender, basil, rosemary", color: "Black, white, silver", crystals: "Clear quartz, labradorite, obsidian" },
+  { symbol: "🌒", name: "Waxing Crescent", energy: "Growth Beginning", timing: "3-7 days after new moon",
+    intention: "Take the first steps. Nurture what you planted. Put intention into motion. This is the action phase — begin, move, do the first thing. The moon is building momentum and so are you.",
+    magic: "Attraction spells, love, money growth, starting new habits, creative projects",
+    herbs: "Mint, basil, rosemary, cinnamon", color: "Green, silver, pale yellow", crystals: "Citrine, green aventurine, carnelian" },
+  { symbol: "🌓", name: "First Quarter", energy: "Decision and Action", timing: "7-10 days after new moon",
+    intention: "Push through resistance. Make the hard decision. The excitement fades here — this is where discipline lives. The half-lit moon asks: are you committed?",
+    magic: "Overcoming obstacles, breaking through resistance, self-discipline, decision-making",
+    herbs: "Ginger, cinnamon, nettle, thyme", color: "Red, orange, bright yellow", crystals: "Carnelian, red jasper, tiger's eye" },
+  { symbol: "🌔", name: "Waxing Gibbous", energy: "Refinement and Amplification", timing: "10-14 days after new moon",
+    intention: "Fine-tune your intentions. Adjust your approach. Amplify. You are almost at full power — this is the moment to refine, strengthen, and push your manifestation toward completion.",
+    magic: "Strengthening existing spells, healing magic, prosperity growth, refining goals",
+    herbs: "Sage, thyme, sandalwood, lemon balm", color: "Purple, gold, deep blue", crystals: "Clear quartz, amethyst, fluorite" },
+  { symbol: "🌕", name: "Full Moon", energy: "Peak Power and Manifestation", timing: "The 3-day full",
+    intention: "The most powerful moment in the lunar cycle. Harvest what you have grown. Release what has completed. The full moon amplifies everything — emotions, energy, magic. Any spell cast here is cast at peak intensity.",
+    magic: "All magic — most powerful; especially divination, manifestation, release rituals, healing, moon water charging",
+    herbs: "All herbs at peak potency; especially mugwort, lavender, rose", color: "White, gold, silver", crystals: "All crystals reach peak charge; especially moonstone, selenite, clear quartz" },
+  { symbol: "🌖", name: "Waning Gibbous", energy: "Gratitude and Sharing", timing: "3-7 days after full moon",
+    intention: "Give thanks. Share what you have received. Let the energy spread outward. This is a time for teaching, gratitude practices, and beginning to release what is no longer needed.",
+    magic: "Gratitude rituals, sharing wisdom, beginning banishing work, healing that requires letting go",
+    herbs: "Rose, violet, chamomile, comfrey", color: "Blue, indigo, deep green", crystals: "Lepidolite, blue lace agate, amethyst" },
+  { symbol: "🌗", name: "Last Quarter", energy: "Release and Breaking Down", timing: "10-14 days after full moon",
+    intention: "Let go of what no longer serves. Break down what must be dismantled. The mirror-half moon asks you to examine what you are still holding that doesn't belong to you — old patterns, old stories, old relationships with yourself.",
+    magic: "Banishing, breaking habits, releasing old patterns, shadow work",
+    herbs: "Cedar, sage, thyme, hyssop", color: "Dark blue, black, forest green", crystals: "Black tourmaline, obsidian, smoky quartz" },
+  { symbol: "🌘", name: "Waning Crescent / Dark Moon", energy: "Rest and Deep Restoration", timing: "27-29 days after new moon",
+    intention: "Do nothing. Rest deeply. This is the most undervalued phase. The dark moon is a time of restoration, not action. It is completion. Let yourself be empty before you fill again.",
+    magic: "Deep rest, meditation, dreamwork, oracle work, ancestor communication, preparation for new cycle",
+    herbs: "Mugwort, valerian, lavender, chamomile", color: "Black, deep purple, midnight blue", crystals: "Obsidian, labradorite, black moonstone" }
+];
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+function renderEntries() {
+  var grid = document.getElementById("entry-grid");
+  grid.innerHTML = entries.map(function(e) {
+    return '<div class="entry-card ' + e.type + '" onclick="openEntry(\'' + e.id + '\')">' +
+      '<div class="entry-tag">' + e.tag + '</div>' +
+      '<div class="entry-name">' + e.name + '</div>' +
+      '<div class="entry-desc">' + e.short + '</div>' +
+      '<div class="entry-arrow">Open entry \u2192</div>' +
+      '</div>';
+  }).join("");
+}
+
+function renderChores() {
+  var container = document.getElementById("chores-container");
+  var flatIdx = 0;
+  container.innerHTML = choreData.map(function(section) {
+    var itemsHtml = section.items.map(function(item) {
+      var idx = flatIdx++;
+      return '<div class="chore-item" onclick="openChore(' + idx + ')">' +
+        '<div class="chore-emoji">' + item.emoji + '</div>' +
+        '<div>' +
+        '<div class="chore-name">' + item.name + '</div>' +
+        '<div class="chore-chakra">\u2B21 ' + item.chakra + '</div>' +
+        '<div class="chore-desc">' + item.desc.substring(0, 100) + '&hellip;</div>' +
+        '</div></div>';
+    }).join("");
+    return '<div class="chore-section">' +
+      '<div class="chore-section-title">' + section.section + '</div>' +
+      '<p style="font-size:0.82rem;color:var(--ink-faded);font-style:italic;margin-bottom:16px;line-height:1.7;">' + section.sectionNote + '</p>' +
+      itemsHtml + '</div>';
+  }).join("");
+}
+
+function renderSimmer() {
+  var grid = document.getElementById("simmer-grid");
+  grid.innerHTML = simmerPots.map(function(pot, i) {
+    return '<div class="simmer-card" onclick="openSimmer(' + i + ')">' +
+      '<div class="simmer-intent">For: ' + pot.intent + '</div>' +
+      '<div class="simmer-name">' + pot.name + '</div>' +
+      '<div class="simmer-desc">' + pot.desc + '</div>' +
+      '<div style="margin-top:10px;font-size:0.75rem;color:var(--gold);font-family:Cinzel,serif;">View recipe \u2192</div>' +
+      '</div>';
+  }).join("");
+}
+
+
+// ============================================================
+// NEW HERBS — Round 3: from magickalcat list, no duplicates
+// ============================================================
+// Already have: Basil, Bay Leaf, Calendula, Cedar, Chamomile, Cinnamon, Clove, Comfrey,
+// Dandelion, Dill, Elderflower, Eucalyptus, Frankincense, Ginger, Hawthorn, Hyssop,
+// Lavender, Lemon Balm, Mint/Peppermint, Mugwort, Myrrh, Nettle, Passionflower,
+// Rose, Rosehip, Rosemary, Sage, St. John's Wort, Thyme, Valerian, Vervain, Violet, Yarrow
+var herbs3 = [
+  { name: "Acacia", latin: "Acacia spp.", element: "Air", planet: "Sun", season: "Year-round",
+    uses: "Protection, psychic enhancement, spiritual connection, money, platonic love, friendship. Sacred across traditions — the burning bush of Moses was believed to be acacia. Burn as incense to promote meditation and psychic visions. Use to consecrate ritual tools.",
+    bonus: "Gum Arabic (acacia resin) is used in many incense blends for psychic work." },
+  { name: "Agrimony", latin: "Agrimonia eupatoria", element: "Air", planet: "Jupiter", season: "Summer",
+    uses: "Protection, reversing spells, breaking hexes, sending negative energy back to its sender, banishing fear and inner blockages. Excellent for removing curses. Placed under a pillow it brings deep sleep.",
+    bonus: "Sew into a dream pillow with mugwort for powerful protective dreaming." },
+  { name: "Alfalfa", latin: "Medicago sativa", element: "Earth", planet: "Venus", season: "Summer",
+    uses: "Money, prosperity, abundance, anti-hunger. A small jar in the pantry wards off poverty. Burn the ashes in amulets for protection from hunger.",
+    bonus: "Keep a small sealed jar in your kitchen cupboard for continuous prosperity energy." },
+  { name: "Allspice", latin: "Pimenta dioica", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Money, luck, healing, added determination and energy in any spell. Burns to attract luck and money. Used in herbal baths for healing. Provides extra power to whatever it is added to.",
+    bonus: "Add a pinch to any simmer pot to amplify its effect." },
+  { name: "Angelica", latin: "Angelica archangelica", element: "Fire", planet: "Sun", season: "Summer",
+    uses: "Powerful protection especially for women and children, exorcism, good fortune, healing, prophetic visions. Creates a barrier against negative energy. Scatter for purification and protection. Named after the Archangel Michael.",
+    bonus: "Sprinkle around the perimeter of your home for protection. NOT safe in pregnancy." },
+  { name: "Anise", latin: "Pimpinella anisum", element: "Air", planet: "Jupiter", season: "Summer",
+    uses: "Psychic ability, protection, purification, warding the evil eye, luck, preventing disturbing dreams. Fill a sleep pillow with anise seed to keep nightmares away. Use in meditation incense.",
+    bonus: "Star anise is particularly good for psychic work and third eye activation." },
+  { name: "Apple", latin: "Malus domestica", element: "Water", planet: "Venus", season: "Autumn",
+    uses: "Love, healing, immortality, friendship, garden magic, honoring the dead. The food of the Underworld — burned at Samhain to honor those who will be reborn. When cut crosswise, the seeds reveal a natural pentacle.",
+    bonus: "Cut an apple in half for a house blessing — eat half, offer half outside as a gift." },
+  { name: "Bergamot", latin: "Citrus bergamia", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Money, prosperity, protection from evil, improving memory, promoting restful sleep, attracting success. Burn at any ritual to increase its power. Carry in a sachet for luck and money while gambling.",
+    bonus: "One of the most effective herbs for attracting success to a project or business." },
+  { name: "Birch", latin: "Betula spp.", element: "Water", planet: "Venus", season: "Spring",
+    uses: "Protection, exorcism, purification, new beginnings. Planted near the home protects against lightning and the evil eye. Associated with new beginnings and the warding of evil. Sacred to many Northern European traditions.",
+    bonus: "Birch brooms (besoms) are traditional witches' tools for sweeping out negative energy." },
+  { name: "Black Pepper", latin: "Piper nigrum", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Banishing negativity, exorcism, protection from evil, mental clarity, courage. One of the most accessible and powerful banishing herbs in the kitchen. Adds fire and sharpness to any working.",
+    bonus: "Three cracks of black pepper in a simmer pot adds protective heat to any blend." },
+  { name: "Blackberry", latin: "Rubus fruticosus", element: "Water", planet: "Venus", season: "Autumn",
+    uses: "Healing, protection, money. Sacred to Brighid. Leaves and berries attract wealth and healing energy. Blackberry brambles at boundaries offer protection.",
+    bonus: "Blackberry wine or jam made with intention carries prosperity magic through winter." },
+  { name: "Borage", latin: "Borago officinalis", element: "Air", planet: "Jupiter", season: "Summer",
+    uses: "Courage, psychic powers, raising spirits. Float the blue star flowers in a ritual bath to lift mood. Carry or burn to increase strength of character. Sprinkle an infusion around the home to ward off evil.",
+    bonus: "Carry dried borage flowers when you need courage for something difficult." },
+  { name: "Burdock", latin: "Arctium lappa", element: "Water", planet: "Venus", season: "Autumn",
+    uses: "Cleansing, protection, warding, clearing negative self-talk. Used when feeling highly negative about oneself or others. Rinse with a decoction of burdock to remove negative feelings.",
+    bonus: "Burdock root tea for deep internal cleansing — physical and energetic." },
+  { name: "Catnip", latin: "Nepeta cataria", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Cat magic, love, beauty, happiness, protection during sleep, breaking bad habits. Sacred to Bast. Use in love sachets with rose petals. Mix with dragon's blood to break a behavioral pattern.",
+    bonus: "Grow near the home to attract good spirits. Excellent for rituals involving cat deities." },
+  { name: "Cayenne", latin: "Capsicum annuum", element: "Fire", planet: "Mars", season: "Summer",
+    uses: "Cleansing, purification, repelling negativity, speeding up the effect of any mixture, dealing with separations or difficult endings. A catalyst herb — adds intensity and speed to any working.",
+    bonus: "Add a pinch to spells that need to work quickly. Use with care — it amplifies everything." },
+  { name: "Coltsfoot", latin: "Tussilago farfara", element: "Water", planet: "Venus", season: "Spring",
+    uses: "Love, visions, peace, tranquility. Used in love sachets and for inducing visions. Burn for peace and to open the heart. Leaves used in smoking blends for divination.",
+    bonus: "Add to vision-inducing incense blends with mugwort." },
+  { name: "Coriander", latin: "Coriandrum sativum", element: "Fire", planet: "Mars", season: "Summer",
+    uses: "Love, health, protection, healing, lust, fidelity. Seeds used in love sachets and incenses. Believed to promote longevity when consumed. Carry the seeds for protection.",
+    bonus: "Grind seeds and add to love sachets. The scent lifts mood and attracts warmth." },
+  { name: "Damiana", latin: "Turnera diffusa", element: "Fire", planet: "Mars", season: "Summer",
+    uses: "Love, lust, visions, psychic enhancement, attraction, sex magic. A powerful herb for drawing love and sensuality. Burn to induce visions and enhance psychic abilities. Used in many love and lust spells.",
+    bonus: "NOT for internal use without extensive research. Powerful energetically — use with intention." },
+  { name: "Dragon's Blood", latin: "Dracaena / Daemonorops spp. (resin)", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Power, protection, potency, purification, banishing evil, amplifying magic. One of the most powerful magical resins. Adds intensity and power to any working it is combined with. Drives away evil.",
+    bonus: "Add to incense to dramatically amplify its protective and purifying power. A little goes a long way." },
+  { name: "Elder", latin: "Sambucus nigra (bark/berry)", element: "Water", planet: "Venus", season: "Spring/Autumn",
+    uses: "Protection, healing, prosperity, sleep, banishing, exorcism, blessing. The Elder tree is sacred — it should always be asked permission before harvesting. Deeply connected to the Crone and the veil between worlds.",
+    bonus: "Note: raw elderberries are toxic — fully cook before any internal use. Flowers are safe." },
+  { name: "Elecampane", latin: "Inula helenium", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Love, protection, psychic powers, banishing angry or violent vibrations, associated with the elven world. Excellent in sachets to attract love. Used in purification incense. Associated with elves and Tarot.",
+    bonus: "Sprinkle around doorways to keep out bad vibrations." },
+  { name: "Fennel", latin: "Foeniculum vulgare", element: "Fire", planet: "Mercury", season: "Summer",
+    uses: "Protection, healing, purification, warding off evil spirits, courage, strength. Hang above doorways to prevent evil from entering. Used for protection against all manner of negativity. Strengthens the mind.",
+    bonus: "Fennel seeds in a small bag hung at entry points offer continuous protective energy." },
+  { name: "Fern", latin: "Filicales spp.", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Protection, luck, eternal youth, health, exorcism, riches, magical power. Burn dried fern in the home for exorcism and to banish negative energy. Carry for luck. Uncurling fern fronds represent new beginnings.",
+    bonus: "Fern is especially potent when gathered at Midsummer. A fern frond in a vase brings life energy." },
+  { name: "Feverfew", latin: "Tanacetum parthenium", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Protection especially in travel, preventing accidents, warding off illness. Carry when traveling by any means. Excellent in protection sachets for those who travel frequently.",
+    bonus: "Tuck into a travel bag or car for protection on journeys." },
+  { name: "Galangal", latin: "Alpinia galanga", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Protection, breaking hexes, luck, money, legal matters, lust, psychic enhancement. A powerful protection herb from Southeast Asian traditions. Excellent for legal matters — carry to court for favorable outcomes.",
+    bonus: "Carry in a red bag for powerful protection against negative magic." },
+  { name: "Gardenia", latin: "Gardenia jasminoides", element: "Water", planet: "Moon", season: "Summer",
+    uses: "Love, peace, healing, spirituality, psychic powers. The scent alone promotes feelings of love and peace. Excellent for attracting love and creating a calm, loving atmosphere. Increases spiritual connection.",
+    bonus: "Place fresh gardenia on the altar during love and healing rituals." },
+  { name: "Garlic", latin: "Allium sativum", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Protection, healing, exorcism, banishing, anti-theft, repelling negative energies and entities. One of the oldest protective herbs. Hung in homes for protection. Wards off illness and evil spirits.",
+    bonus: "Hang a braid of garlic near the door for powerful home protection. Burn during exorcism rituals." },
+  { name: "Heather", latin: "Calluna vulgaris", element: "Water", planet: "Venus", season: "Summer/Autumn",
+    uses: "Luck, protection, rain, calling spirits, opening portals between worlds. White heather is especially lucky. Used in Scottish and Celtic traditions for luck and protection. Attracts good spirits.",
+    bonus: "Carry white heather for extraordinary luck. Keep a sprig on the altar." },
+  { name: "Hibiscus", latin: "Hibiscus rosa-sinensis", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Love, lust, divination, attracting love and desire, psychic dreams. A deeply sensual and heart-opening herb. Used in love potions and teas. Hibiscus tea before sleep encourages vivid and sometimes prophetic dreams.",
+    bonus: "Hibiscus and rose simmer pot is one of the most powerful heart-opening combinations." },
+  { name: "High John the Conqueror", latin: "Ipomoea jalapa (root)", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Strength, confidence, success, luck, love, money, breaking spells. One of the most powerful roots in Hoodoo tradition. Carried for strength, dominance, and overcoming obstacles. Anointed with oil for maximum power.",
+    bonus: "Anoint with condition oil and carry in a mojo bag for unstoppable confidence." },
+  { name: "Holly", latin: "Ilex aquifolium", element: "Fire", planet: "Mars / Saturn", season: "Winter",
+    uses: "Protection, luck, anti-lightning, dream magic, balance. Sacred at Yule. Holly placed at doors and windows protects against malevolent spirits. Dream magic when placed near the bed.",
+    bonus: "Holly and ivy together at Yule represent the balance of masculine and feminine energies." },
+  { name: "Honeysuckle", latin: "Lonicera spp.", element: "Earth", planet: "Jupiter", season: "Summer",
+    uses: "Money, psychic powers, protection, happiness, friendship. Ring green candles with honeysuckle to attract money. Carry the flowers for luck and psychic enhancement.",
+    bonus: "Honeysuckle oil on the temples is said to sharpen intuition." },
+  { name: "Hops", latin: "Humulus lupulus", element: "Air", planet: "Mars", season: "Autumn",
+    uses: "Sleep, healing, dream work, relaxation, easing nervous tension. Excellent in dream pillows to encourage deep, restful sleep. Used in healing sachets for those recovering from illness.",
+    bonus: "The classic dream pillow herb — combine with lavender and mugwort for deep sleep." },
+  { name: "Horehound", latin: "Marrubium vulgare", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Protection, mental clarity, healing, exorcism, anti-hex. One of the oldest protective herbs. Carry as an amulet for protection. Burn with incense to increase mental clarity.",
+    bonus: "Excellent in protection sachets. Grows easily and makes a good garden guardian plant." },
+  { name: "Jasmine", latin: "Jasminum officinale", element: "Water", planet: "Moon / Jupiter", season: "Summer",
+    uses: "Love, money, prophetic dreams, spiritual connection, attracting love from a distance, hope. The scent alone is deeply romantic and uplifting. Used in dream sachets for prophetic and loving dreams.",
+    bonus: "Already in several simmer pot recipes — also excellent as essential oil on the body." },
+  { name: "Juniper", latin: "Juniperus communis", element: "Fire", planet: "Sun", season: "Year-round",
+    uses: "Protection, anti-theft, love, exorcism, health, cleansing, attracting love. One of the oldest magical herbs in European traditions. Burn at thresholds for protection and purification. Guards against illness.",
+    bonus: "Juniper berries in a sachet by the door offer strong and ongoing protection." },
+  { name: "Lavender", latin: "Lavandula spp.", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Peace, calm, love, protection, restful sleep, emotional balance, purification. One of the most versatile and beloved herbs in any tradition. Already fully in the glossary.",
+    bonus: "See full entry in the glossary." },
+  { name: "Lemon", latin: "Citrus limon", element: "Water", planet: "Moon", season: "Year-round",
+    uses: "Cleansing, purification, love, moon magic, clarity, breaking curses. The juice is a powerful cleanser. Used in love potions and friendship spells. Excellent for clearing stagnant energy in a space.",
+    bonus: "Add lemon slices to cleaning water for powerful energetic scrubbing of surfaces." },
+  { name: "Lemon Verbena", latin: "Aloysia citrodora", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Purification, love, attracting love, increasing the power of other herbs, breaking attachments and bad habits. Makes all love charms and spells more powerful when added. A purification herb that also attracts love.",
+    bonus: "Add to any love charm to dramatically increase its power." },
+  { name: "Licorice Root", latin: "Glycyrrhiza glabra", element: "Water", planet: "Venus", season: "Year-round",
+    uses: "Love, lust, fidelity, control, sexual attraction, passion. Used in love spells and sachets. Believed to increase sexual desire and fidelity. Carry the root for love magic.",
+    bonus: "Combine with rose and cinnamon in love sachets for potent attraction magic." },
+  { name: "Lilac", latin: "Syringa vulgaris", element: "Air", planet: "Venus", season: "Spring",
+    uses: "Exorcism, protection, beauty, past life recall. The scent alone is believed to drive away evil. Planted near the home as a protective ward. Excellent for past life meditation and recall.",
+    bonus: "Lilac in bloom is one of the most powerful natural protective scents in spring." },
+  { name: "Lotus", latin: "Nelumbo nucifera", element: "Water", planet: "Moon", season: "Summer",
+    uses: "Protection, lock opening, spiritual awakening, divination, psychic powers, sacred connection. One of the most sacred plants across Egyptian, Buddhist, and Hindu traditions. Opens spiritual gateways.",
+    bonus: "Lotus essential oil or dried petals on the altar elevate any spiritual working." },
+  { name: "Lovage", latin: "Levisticum officinale", element: "Water", planet: "Sun", season: "Summer",
+    uses: "Love, attraction, psychic powers, purification. Add to bath water to become more attractive. Carry for love attraction. Use in love divination.",
+    bonus: "Lovage bath with rose petals and lavender is a powerful self-love and attraction ritual." },
+  { name: "Lungwort", latin: "Pulmonaria officinalis", element: "Air", planet: "Jupiter", season: "Spring",
+    uses: "Air magic, healing, protection, associated with the lungs and breath. Used in healing sachets for respiratory issues. Protective when carried.",
+    bonus: "For breath-focused meditation and ritual — associated with the throat and heart chakras." },
+  { name: "Marjoram", latin: "Origanum majorana", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Love, protection, healing, happiness, money, grief. Used to restore happiness and comfort in times of grief. Place in sachets with rose petals for love. Keep in the home for protection.",
+    bonus: "Excellent in grief simmer pots alongside rose and violet." },
+  { name: "Meadowsweet", latin: "Filipendula ulmaria", element: "Air", planet: "Jupiter", season: "Summer",
+    uses: "Love, divination, peace, happiness, blessings. Sacred to the Druids — one of the three most sacred herbs. Used at handfastings and love rituals. Strewn on floors to create a peaceful atmosphere.",
+    bonus: "One of the most beloved love and peace herbs in Celtic and Druidic tradition." },
+  { name: "Mistletoe", latin: "Viscum album", element: "Air", planet: "Sun", season: "Winter",
+    uses: "Protection, love, fertility, health, exorcism, luck. Ancient and sacred across Celtic and Norse traditions. Hung above doorways for protection and good luck. Used in love and fertility magic.",
+    bonus: "Handle carefully — berries are toxic. Carry dried leaves (not berries) for protection." },
+  { name: "Motherwort", latin: "Leonurus cardiaca", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Protection, counter magic, increasing confidence, inner strength, calming the heart, healing fear. Carries the energy of the fierce protective mother. Excellent for anxiety rooted in fear of what others think.",
+    bonus: "NOT in pregnancy. For those who need the energy of fierce maternal protection in their practice." },
+  { name: "Mullein", latin: "Verbascum thapsus", element: "Fire", planet: "Saturn", season: "Summer",
+    uses: "Protection, courage, health, love divination, exorcism, banishing, illumination. Called witch's taper — the dried stalks were used as torches. Carry for courage and protection from nightmares.",
+    bonus: "The large soft leaves are sometimes used as a natural wrapper for herb sachets." },
+  { name: "Nutmeg", latin: "Myristica fragrans", element: "Fire", planet: "Jupiter", season: "Year-round",
+    uses: "Luck, money, health, fidelity, psychic development. Carry a whole nutmeg for luck. Add to money and prosperity spells. A pinch in simmer pots enhances psychic receptivity.",
+    bonus: "Carry a whole nutmeg in your pocket or wallet as a luck charm." },
+  { name: "Oak", latin: "Quercus spp.", element: "Fire", planet: "Sun / Jupiter", season: "Year-round",
+    uses: "Strength, longevity, protection, wisdom, stability, luck, earth magic. The king of trees in Celtic tradition. Acorns are powerful protective amulets. The oak is a doorway — it has long been associated with standing at the threshold.",
+    bonus: "Carry an acorn for luck, strength, and protection. Never take from an oak without asking." },
+  { name: "Orange Peel", latin: "Citrus sinensis", element: "Fire", planet: "Sun", season: "Year-round",
+    uses: "Luck, love, money, divination, abundance, solar energy, uplifting mood. Dried orange peel in sachets draws love and abundance. Fresh peel in simmer pots brightens the energy of any space.",
+    bonus: "Already used in several simmer pot recipes. Dried in sachets for ongoing abundance energy." },
+  { name: "Oregano", latin: "Origanum vulgare", element: "Air", planet: "Mercury", season: "Summer",
+    uses: "Joy, strength, vitality, luck, health. Wear oregano to bring good luck. Used in sachets to promote happiness and vitality. Associated with bringing life force into food and into ritual work.",
+    bonus: "A kitchen witch staple — setting intention while cooking with oregano brings joy energy." },
+  { name: "Orris Root", latin: "Iris germanica", element: "Water", planet: "Venus", season: "Spring",
+    uses: "Love, protection, divination, drawing love, attracting men, fixing intentions. Also called Queen Elizabeth Root. One of the most widely used roots in love magic across many traditions.",
+    bonus: "Orris root powder holds scent — excellent as a base for sachets and powders." },
+  { name: "Patchouli", latin: "Pogostemon cablin", element: "Earth", planet: "Saturn", season: "Year-round",
+    uses: "Money, prosperity, fertility, love, lust, grounding, protection, banishing. A deeply earthy, grounding herb with strong money and fertility associations. Heavy and slow — it builds things over time.",
+    bonus: "One of the most effective herbs for manifesting material abundance. Pairs with cinnamon for money magic." },
+  { name: "Pennyroyal", latin: "Mentha pulegium", element: "Fire", planet: "Mars", season: "Summer",
+    uses: "Strength, protection, peace, harmony between spouses, warding off negativity. Carry to increase strength. Place between spouses in the bed to promote harmony.",
+    bonus: "TOXIC in pregnancy and in high doses. Use energetically, not internally." },
+  { name: "Peony", latin: "Paeonia officinalis", element: "Fire", planet: "Sun", season: "Spring/Summer",
+    uses: "Protection, exorcism, good fortune, happiness, blessing. Traditionally used to protect against lunacy and misfortune. A powerful protective plant — carry the root for ongoing protection.",
+    bonus: "Peony root is an excellent protective amulet. Place in the home for good fortune." },
+  { name: "Pine", latin: "Pinus spp.", element: "Air / Earth", planet: "Mars / Saturn", season: "Year-round",
+    uses: "Healing, purification, protection, money, anti-hunger, strength. Pine needles burned for purification. Pine cones on the altar for Earth energy and fertility. Pine sap for sealing and protecting.",
+    bonus: "Pine essential oil in simmer pots or cleaning water powerfully purifies and protects." },
+  { name: "Plantain", latin: "Plantago major", element: "Earth", planet: "Venus", season: "Summer",
+    uses: "Healing, strength, protection, snake repelling, warding off evil. One of the most overlooked healing herbs, growing everywhere. Plantain leaf is a traditional wound herb — both physical and energetic.",
+    bonus: "The humble plantain growing in your yard is a powerful ally hiding in plain sight." },
+  { name: "Poppy", latin: "Papaver spp.", element: "Water", planet: "Moon", season: "Summer",
+    uses: "Dreams, fertility, creativity, visions, luck, love, prosperity, sleep. Poppy seeds in sachets bring luck and fertility. A moon herb — used in dream work and vision seeking.",
+    bonus: "Poppy seeds scattered on the altar during moon rituals invite vision and creative flow." },
+  { name: "Raspberry Leaf", latin: "Rubus idaeus", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Love, protection, healing. Place raspberry leaves in the home for protection. Carry for love attraction. Raspberry canes at boundaries protect against intruders both physical and energetic.",
+    bonus: "Raspberry leaf tea is nourishing and protective — a good everyday practice herb." },
+  { name: "Rowan", latin: "Sorbus aucuparia", element: "Fire", planet: "Sun", season: "Spring/Autumn",
+    uses: "Protection, psychic powers, healing, success, anti-hex, banishing evil. Sacred to Thor in Norse tradition. Rowan berries and crosses are powerful protective wards. One of the most potent protective trees in Celtic lore.",
+    bonus: "A small rowan cross tied with red thread is one of the oldest protective charms known." },
+  { name: "Rue", latin: "Ruta graveolens", element: "Fire", planet: "Mars / Saturn", season: "Summer",
+    uses: "Healing, protection, mental clarity, breaking hexes, repelling the evil eye. One of the oldest protective herbs — its scent alone is said to repel negative energy and witchcraft.",
+    bonus: "NOT safe in pregnancy. Hang in the home for protection. Very powerful — use with intention." },
+  { name: "Saffron", latin: "Crocus sativus", element: "Fire", planet: "Sun", season: "Autumn",
+    uses: "Love, healing, happiness, lust, strength, psychic powers, wind raising. One of the most ancient magical herbs. Extremely precious — a little goes a long way. Burn as incense for love and healing.",
+    bonus: "Saffron thread in ritual candle anointing oil adds solar and love energy." },
+  { name: "Sandalwood", latin: "Santalum album", element: "Water", planet: "Moon", season: "Year-round",
+    uses: "Protection, healing, spiritual connection, purification, meditation, wishes, exorcism. One of the most sacred woods across Hindu, Buddhist, and Pagan traditions. Burns beautifully and elevates any ritual.",
+    bonus: "Burn sandalwood incense before any spiritual work to open sacred space." },
+  { name: "Skullcap", latin: "Scutellaria lateriflora", element: "Water", planet: "Saturn", season: "Summer",
+    uses: "Calm, relaxation, peace, protection, fidelity, preventing disagreements between partners. Excellent for calming an overactive nervous system. Used in peace and fidelity spells.",
+    bonus: "Excellent for overstimulation — skullcap tea or tincture is deeply calming." },
+  { name: "Solomon's Seal", latin: "Polygonatum spp.", element: "Water", planet: "Saturn", season: "Spring",
+    uses: "Protection, cleansing, sealing and binding spells, wisdom, success, making decisions, removing obstacles. Excellent for sealing the energy of a completed working. Sprinkle an infusion around the home for cleansing.",
+    bonus: "Use after completing any ritual or spell to seal its energy and protect the working." },
+  { name: "Spearmint", latin: "Mentha spicata", element: "Air", planet: "Venus / Mercury", season: "Summer",
+    uses: "Healing, love, mental powers, protection, clarity, uplifting energy. A gentler cousin of peppermint. Excellent for love work and for clearing and uplifting the mind and heart.",
+    bonus: "Use in place of peppermint when you want a softer, more loving quality of mint energy." },
+  { name: "Star Anise", latin: "Illicium verum", element: "Air", planet: "Jupiter", season: "Year-round",
+    uses: "Psychic ability, luck, protection, visions, blessings, purification. Each star has the shape of a natural protective amulet. Burn as incense for psychic work. Carry for luck and to open the third eye.",
+    bonus: "One star anise burned in an incense blend dramatically elevates psychic sensitivity." },
+  { name: "Strawberry", latin: "Fragaria vesca", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Love, luck, abundance, friendship, happiness. The leaves and fruit both carry love energy. Used in love sachets and potions. Eating strawberries before meeting a potential lover is said to ensure attraction.",
+    bonus: "Fresh strawberries on the altar during love rituals are a simple and beautiful offering." },
+  { name: "Sweetgrass", latin: "Hierochloe odorata", element: "Air", planet: "Venus", season: "Summer",
+    uses: "Calling in good spirits, blessings, sweetening situations and relationships, purification. One of the most sacred plants in many Indigenous traditions. Braided and burned after sage to invite positive energy in after clearing.",
+    bonus: "Use with deep respect — sweetgrass is sacred to many Indigenous peoples. Source ethically." },
+  { name: "Tobacco", latin: "Nicotiana tabacum", element: "Fire", planet: "Mars", season: "Summer",
+    uses: "Peace, offerings to spirits and ancestors, healing, connection to the spirit world, communication with deities. Sacred in many Indigenous traditions — an offering and a bridge. Not for casual use.",
+    bonus: "Offer tobacco (not smoke it) as a sacred gift at altars, to trees, or at crossroads." },
+  { name: "Turmeric", latin: "Curcuma longa", element: "Fire", planet: "Sun / Mars", season: "Year-round",
+    uses: "Purification, protection, fertility, prosperity, solar energy, healing, banishing. The golden root — carries the energy of the sun. Excellent for purification and prosperity magic. Also a powerful anti-inflammatory.",
+    bonus: "Add to simmer pots for solar and purification energy. Sprinkle in corners for protection." },
+  { name: "Vanilla", latin: "Vanilla planifolia", element: "Water", planet: "Venus", season: "Year-round",
+    uses: "Love, lust, mental powers, joy, good fortune. The scent alone soothes and invites warmth. Used in love and happiness spells. Excellent in comfort and joy simmer pots.",
+    bonus: "A vanilla bean split open and simmered fills the home with unconditional warmth." },
+  { name: "Vetiver", latin: "Vetiveria zizanioides", element: "Earth", planet: "Venus", season: "Year-round",
+    uses: "Grounding, luck, money, love, hex breaking, anti-theft, overcoming obstacles. Deeply earthy and grounding — roots that grow downward with tremendous force. One of the best herbs for deep root chakra work.",
+    bonus: "Vetiver essential oil on the feet before grounding practices anchors you powerfully." },
+  { name: "White Willow", latin: "Salix alba", element: "Water", planet: "Moon", season: "Spring/Summer",
+    uses: "Solace, wisdom, long-lasting love, divination, lunar magic, healing grief. Sacred to the moon. Willow is a grief companion — it bends without breaking. Associated with poets, dreamers, and the moon.",
+    bonus: "Carry willow bark for solace during grief. Plant near water for a powerful protective guardian." },
+  { name: "Wormwood", latin: "Artemisia absinthium", element: "Fire", planet: "Mars / Saturn", season: "Autumn",
+    uses: "Psychic vision, spirit evocation, divination, protection, reversal magic, crossing the hedge. A dark and powerful herb. Burn to open the veil between worlds. Used by seers for centuries. Related to mugwort.",
+    bonus: "NOT safe internally in large doses. Use as incense for divination and spirit communication." }
+];
+herbs.push.apply(herbs, herbs3);
+
+function renderHerbs() {
+  herbs.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  var grid = document.getElementById("herb-grid");
+  var nav = document.getElementById("herb-az-nav");
+  if (!grid) return;
+
+  // Build letter index
+  var letters = {};
+  herbs.forEach(function(h, i) {
+    var l = h.name[0].toUpperCase();
+    if (!letters[l]) letters[l] = i;
+  });
+
+  // Render A-Z nav
+  if (nav) {
+    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    nav.innerHTML = alphabet.map(function(l) {
+      if (letters[l] !== undefined) {
+        return '<button onclick="scrollToHerbLetter(\'' + l + '\')" style="font-family:Cinzel,serif;font-size:0.7rem;color:var(--earth-dark);background:rgba(184,134,11,0.15);border:1px solid var(--gold);border-radius:2px;padding:4px 7px;cursor:pointer;letter-spacing:0.05em;transition:all 0.15s;" onmouseover="this.style.background=\'rgba(184,134,11,0.35)\'" onmouseout="this.style.background=\'rgba(184,134,11,0.15)\'">' + l + '</button>';
+      } else {
+        return '<span style="font-family:Cinzel,serif;font-size:0.7rem;color:var(--parchment-shadow);padding:4px 7px;opacity:0.4;">' + l + '</span>';
+      }
+    }).join("");
+  }
+
+  // Render herbs grouped by letter with anchor divs
+  var html = "";
+  var currentLetter = "";
+  herbs.forEach(function(h, i) {
+    var l = h.name[0].toUpperCase();
+    if (l !== currentLetter) {
+      if (currentLetter !== "") html += '</div>'; // close previous grid
+      html += '<div id="herb-letter-' + l + '" style="width:100%;grid-column:1/-1;padding:8px 0 4px;border-bottom:1px solid var(--parchment-shadow);margin:12px 0 6px;">' +
+        '<span style="font-family:Cinzel Decorative,cursive;font-size:1rem;color:var(--earth-dark);">' + l + '</span></div>';
+      html += '<div class="herb-grid" style="margin-bottom:0;">';
+      currentLetter = l;
+    }
+    html += '<div class="herb-card" onclick="openHerb(' + i + ')">' +
+      '<div class="herb-name">' + h.name + '</div>' +
+      '<div class="herb-element">\u2B21 ' + h.element + ' \u00B7 ' + h.planet + '</div>' +
+      '<div class="herb-uses">' + h.uses.substring(0, 80) + '&hellip;</div>' +
+      '</div>';
+  });
+  if (currentLetter !== "") html += '</div>';
+  grid.innerHTML = html;
+}
+
+function scrollToHerbLetter(l) {
+  var el = document.getElementById("herb-letter-" + l);
+  if (el) { el.scrollIntoView({behavior:"smooth", block:"start"}); }
+}
+
+
+function renderMoon() {
+  var grid = document.getElementById("moon-grid");
+  grid.innerHTML = moonPhases.map(function(m, i) {
+    return '<div class="moon-card" onclick="openMoon(' + i + ')">' +
+      '<div class="moon-symbol">' + m.symbol + '</div>' +
+      '<div class="moon-phase-name">' + m.name + '</div>' +
+      '<div class="moon-phase-intent">' + m.energy + '</div>' +
+      '</div>';
+  }).join("");
+}
+
+// ============================================================
+// OVERLAY OPENERS
+// ============================================================
+
+function openEntry(id) {
+  var e = null;
+  for (var i = 0; i < entries.length; i++) { if (entries[i].id === id) { e = entries[i]; break; } }
+  if (!e) return;
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">' + e.tag + '</div>' +
+    '<div class="overlay-title">' + e.name + '</div>' +
+    '<p style="font-size:0.88rem;color:var(--ink-faded);font-style:italic;margin-bottom:4px;">' + e.short + '</p>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Chakra Work</div><p class="overlay-text">\u2B21 ' + e.chakra + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Signs and Symptoms</div><ul class="overlay-list">' + e.symptoms.map(function(s){return '<li>'+s+'</li>';}).join('') + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Intention to Set</div><div class="overlay-affirmation">' + e.intention + '</div></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Intentional Actions</div><ul class="overlay-list">' + e.actions.map(function(a){return '<li>'+a+'</li>';}).join('') + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Herbs for This Work</div><ul class="overlay-list">' + e.herbs.map(function(h){return '<li>'+h+'</li>';}).join('') + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Moon Timing</div>' + e.moon.map(function(m){return '<span class="moon-tag">'+m+'</span>';}).join('') + '</div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Simmer Pot Pairing</div><p class="overlay-text">\uD83C\uDF3F ' + e.simmer + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Affirmation</div><div class="overlay-affirmation">' + e.affirmation + '</div></div>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+function openChore(idx) {
+  var item = choreFlat[idx];
+  if (!item) return;
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">Sacred Chore</div>' +
+    '<div class="overlay-title">' + item.emoji + ' ' + item.name + '</div>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Chakra Correspondence</div><p class="overlay-text">\u2B21 ' + item.chakra + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">The Intentional Practice</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + item.desc + '</p></div>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+function openSimmer(i) {
+  var pot = simmerPots[i];
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">Simmer Pot Recipe</div>' +
+    '<div class="overlay-title">' + pot.name + '</div>' +
+    '<p style="font-size:0.88rem;color:var(--sage);font-style:italic;margin-bottom:4px;">For: ' + pot.intent + '</p>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Ingredients</div><ul class="overlay-list">' + pot.ingredients.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Method and Intention</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + pot.method + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Best Moon Timing</div><span class="moon-tag">' + pot.moon + '</span></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Affirmation While Stirring</div><div class="overlay-affirmation">' + pot.affirmation + '</div></div>' +
+    '<p style="font-size:0.75rem;color:var(--sage);margin-top:20px;font-style:italic;">Never leave a simmering pot unattended. Top off water as needed. Compost ingredients when done — return them to the earth with gratitude.</p>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+function openHerb(i) {
+  var h = herbs[i];
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">Herb Glossary</div>' +
+    '<div class="overlay-title">' + h.name + '</div>' +
+    '<p style="font-size:0.8rem;color:var(--sage);font-style:italic;margin-bottom:4px;">' + h.latin + '</p>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Correspondences</div><ul class="overlay-list"><li><strong>Element:</strong> ' + h.element + '</li><li><strong>Planet:</strong> ' + h.planet + '</li><li><strong>Season:</strong> ' + h.season + '</li></ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Magical and Energetic Uses</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + h.uses + '</p></div>' +
+    (h.bonus ? '<div class="overlay-section"><div class="overlay-section-title">Practical Tip</div><div class="overlay-affirmation">' + h.bonus + '</div></div>' : '');
+  document.getElementById("overlay").classList.add("open");
+}
+
+function openMoon(i) {
+  var m = moonPhases[i];
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">Moon Phase</div>' +
+    '<div class="overlay-title">' + m.symbol + ' ' + m.name + '</div>' +
+    '<p style="font-size:0.82rem;color:var(--sage);font-style:italic;margin-bottom:4px;">' + m.energy + ' \u00B7 ' + m.timing + '</p>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">This Phase\'s Invitation</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + m.intention + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Best Magic for This Phase</div><p class="overlay-text">' + m.magic + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Correspondences</div><ul class="overlay-list"><li><strong>Herbs:</strong> ' + m.herbs + '</li><li><strong>Colors:</strong> ' + m.color + '</li><li><strong>Crystals:</strong> ' + m.crystals + '</li></ul></div>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+function closeOverlay() {
+  document.getElementById("overlay").classList.remove("open");
+}
+
+document.getElementById("overlay").addEventListener("click", function(e) {
+  if (e.target === this) closeOverlay();
+});
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+
+function showPage(name, btn) {
+  document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("active"); });
+  document.querySelectorAll(".nav-btn").forEach(function(b) { b.classList.remove("active"); });
+  document.getElementById("page-" + name).classList.add("active");
+  if (btn) btn.classList.add("active");
+}
+
+function openBook() {
+  document.getElementById("cover").style.display = "none";
+  document.getElementById("book-container").style.display = "flex";
+}
+
+function closeBook() {
+  document.getElementById("book-container").style.display = "none";
+  document.getElementById("cover").style.display = "flex";
+}
+
+// ============================================================
+// NEW ENTRIES — added
+// ============================================================
+var newEntries = [
+  {
+    id: "jealousy", tag: "Emotion", type: "emotion", name: "Jealousy",
+    short: "The green-eyed shadow. When someone else's light makes yours feel smaller.",
+    chakra: "Solar Plexus (Manipura) — worth and power; Heart (Anahata) — comparison and love",
+    symptoms: ["Bitterness that you didn't ask for", "Shrinking yourself in the presence of others' success", "Resentment layered over longing", "Feeling like there is not enough for you"],
+    intention: "Someone else's abundance does not diminish mine. There is enough. There is enough for me.",
+    actions: [
+      "Name the jealousy honestly. Don't dress it up. It is information about what you want.",
+      "Journal: What does this person have that I want? Now ask: what is actually stopping me from having it?",
+      "Carnelian for personal power. Citrine for abundance mindset. Carry both.",
+      "Make a solar plexus practice: stand in sunlight, hand over your belly, and breathe into the space where the envy lives.",
+      "Transmute it: let the jealousy become a compass. What is it pointing you toward?"
+    ],
+    herbs: ["Carnelian herb-equivalent: Basil (abundance, personal power)", "Citrus peel (solar, expansive energy)", "Rosemary (clarity about your own path)", "Thyme (release comparison)"],
+    moon: ["Waning Moon (release scarcity thinking)", "New Moon (set intentions for your own abundance)"],
+    simmer: "Citrus, Basil & Cinnamon Simmer — open the solar plexus, call in your own",
+    affirmation: "Their success is not my failure. I am on my own path and it is enough."
+  },
+  {
+    id: "loneliness", tag: "Emotion", type: "emotion", name: "Loneliness",
+    short: "The ache of being unseen. Of being in a room and still feeling alone.",
+    chakra: "Heart (Anahata) — closed or aching; Root (Muladhara) — unmoored from belonging",
+    symptoms: ["Hunger for connection that nothing fills", "Feeling like a stranger in familiar spaces", "Withdrawing further when you most need reaching out", "The particular quiet of an empty house"],
+    intention: "I belong to this earth. I belong to myself. Connection begins here, inside, and moves outward.",
+    actions: [
+      "Go outside. Put your feet on the ground. You are never alone when you are connected to the earth.",
+      "Light a candle for company. Speak out loud — to the room, to your ancestors, to whatever you believe in.",
+      "Make a rose and vanilla simmer pot and let the warmth fill your space.",
+      "Reach out to one person — not to explain yourself, just to make contact. A text counts.",
+      "Rose quartz on the heart. Moonstone for emotional connection and opening.",
+      "Journal: When do I feel most connected? What conditions create that feeling? How do I make more of them?"
+    ],
+    herbs: ["Rose (connection, love, belonging)", "Jasmine (warm company, hope)", "Lemon Balm (lifts the heaviness of isolation)", "Vanilla (warmth, comfort)"],
+    moon: ["Full Moon (you are connected to everyone under this same moon)", "Waxing Moon (draw connection toward you)"],
+    simmer: "Rose, Jasmine & Vanilla Simmer — warm the room, warm yourself",
+    affirmation: "I am never truly alone. The earth holds me. Love exists in this world and some of it is for me."
+  },
+  {
+    id: "betrayal", tag: "Relationship Dynamic", type: "relationship", name: "Betrayal",
+    short: "When someone who knew your soft places used them against you.",
+    chakra: "Solar Plexus (Manipura) — identity shattered; Heart (Anahata) — trust broken at the root",
+    symptoms: ["The specific nausea of a wound from someone who knew better", "Replaying what you missed", "Grief and rage occupying the same body", "Questioning your own instincts"],
+    intention: "What was done to me is real. My anger is appropriate. I will not let this teach me that I should not have loved — only that I can be more discerning about who I open to.",
+    actions: [
+      "Do not rush to forgiveness. Forgiveness is for you, not for them — and it comes when it comes.",
+      "Protective ward your space: rosemary at the door, black tourmaline in every corner.",
+      "Journal: What do I know now that I didn't know before? What will I carry forward from this?",
+      "Yarrow for heart protection. Apache Tear obsidian for grief processing. Carry both.",
+      "Sage every room they occupied in your energy. Open the windows after.",
+      "Write what you would say if there were no consequences. Burn it."
+    ],
+    herbs: ["Yarrow (protection of the heart while it heals)", "Rosemary (protection, clarity, memory)", "Cedar (strength, ancestral protection)", "Thyme (release the past)"],
+    moon: ["Waning Moon (banish their hold on your energy)", "Dark Moon (sit with the wound, do not rush it)", "New Moon (when ready, set new terms for who you let in)"],
+    simmer: "Cedar, Rosemary & Black Pepper Simmer: protective, clarifying, banishing",
+    affirmation: "I trusted well. I was wronged. These two things are both true and neither cancels the other."
+  },
+  {
+    id: "transition", tag: "Life Event", type: "life-event", name: "Transition",
+    short: "The in-between. When one door has closed and the next has not yet opened.",
+    chakra: "Root (Muladhara)—groundless; Sacral (Svadhisthana)—identity in flux",
+    symptoms: ["Feeling suspended between two lives", "Loss of clarity about who you are becoming", "The exhaustion of not knowing", "Grief and excitement arriving at the same time"],
+    intention: "I do not need to know where I'm going to be on my way. I am being shaped. I can trust the shaping.",
+    actions: [
+      "Threshold practice: stand in a doorway and breathe. You are between. This is a sacred place.",
+      "Do not make permanent decisions from the in-between. Let yourself float a little longer.",
+      "Mugwort for navigating transitions. Cedar for strength when the ground is uncertain.",
+      "Make a change simmer pot: cedar, thyme, orange. Keep windows cracked.",
+      "Journal: What is ending? What am I afraid to admit is over? What is quietly beginning that I have not named yet?",
+      "Moonstone for moving through change with grace. Labradorite for illuminating the path forward."
+    ],
+    herbs: ["Mugwort (transformation, threshold crossing)", "Cedar (strength in uncertain terrain)", "Thyme (courage, releasing old forms)", "Orange Peel (openness to what is new)"],
+    moon: ["Dark Moon (honor the ending)", "New Moon (name the beginning)", "Full Moon (see clearly what is happening)"],
+    simmer: "Mugwort, Cedar & Orange Simmer — courage at the threshold",
+    affirmation: "I am between stories. This is not a failure. This is just a pause before the next chapter begins."
+  },
+  {
+    id: "joy", tag: "Emotion", type: "emotion", name: "Joy",
+    short: "When something in you opens and the world pours in.",
+    chakra: "Heart (Anahata) — full and open; Sacral (Svadhisthana) — alive and creative",
+    symptoms: ["Lightness you forgot you could feel", "Laughing at nothing", "Wanting to share everything", "The strange guilt some of us feel when things are actually good"],
+    intention: "I am allowed to feel this fully. I do not need to brace against it or explain it. Joy is not naive. Joy is brave.",
+    actions: [
+      "Let yourself feel it without immediately reaching for what could go wrong.",
+      "Mark the moment. Light a candle, write a sentence, take a photograph — anchor it.",
+      "Make a celebration simmer pot: citrus, vanilla, cinnamon, bay leaf.",
+      "Share it. Tell someone. Joy multiplies when it is witnessed.",
+      "Citrine for amplifying joy. Sunstone for warmth and vitality. Carry one today.",
+      "Be in your body — dance, move, run, stretch. Joy wants to inhabit you fully."
+    ],
+    herbs: ["Chamomile (warmth, gentle happiness)", "Orange Peel (solar, uplifting)", "Lemon Balm (lifts and brightens)", "Basil (abundance of spirit)"],
+    moon: ["Full Moon (celebrate, amplify, share)", "Waxing Gibbous (joy is growing — let it)"],
+    simmer: "Orange, Vanilla & Cinnamon Simmer — amplify the warmth, fill the room with light",
+    affirmation: "I receive this joy. I let it be real. I am allowed to be this okay."
+  }
+];
+entries.push.apply(entries, newEntries);
+
+// ============================================================
+// NEW SIMMER POTS — added
+// ============================================================
+var moreSimmers = [
+  {
+    intent: "Focus and Clarity", name: "The Clear Mind Cauldron",
+    desc: "For brain fog, distraction, or mental overwhelm.",
+    ingredients: ["Orange slices", "Rosemary sprigs", "Vanilla bean", "Fresh mint", "A few drops of eucalyptus"],
+    method: "Stir clockwise with deliberate intention. Breathe in deeply as you add each ingredient. This pot works fast — within minutes the air shifts. Sit near it and let your mind quiet and organize itself.",
+    moon: "First Quarter or Waxing Gibbous",
+    affirmation: "My mind is clear. My path is visible."
+  },
+  {
+    intent: "Abundance and Prosperity", name: "The Green Gold Simmer",
+    desc: "For financial intention, career magic, or calling in opportunities.",
+    ingredients: ["Cinnamon sticks (2)", "Basil leaves (fresh)", "Bay leaf (write your intention on it)", "Orange peel", "Whole cloves (3)", "A pinch of black pepper"],
+    method: "Stir clockwise vigorously — this is an action spell. Set a very specific financial or career intention. Speak it aloud three times as you stir. Keep a green candle burning nearby if you have one.",
+    moon: "Waxing Moon or Full Moon",
+    affirmation: "Abundance flows to me and through me. I am open to receive."
+  },
+  {
+    intent: "Sleep and Dreams", name: "The Dream Gate Brew",
+    desc: "For restless nights, troubled sleep, or to invite meaningful dreams.",
+    ingredients: ["Lavender buds", "Chamomile flowers", "Dried mugwort (small amount)", "Vanilla bean", "A pinch of nutmeg"],
+    method: "Make this pot in the early evening so the scent fills the bedroom before sleep. Stir counterclockwise to release the day, then clockwise to invite peaceful rest. Speak: I release this day. I enter rest willingly.",
+    moon: "Waning Crescent or Dark Moon",
+    affirmation: "I release this day completely. Sleep restores me."
+  },
+  {
+    intent: "Self-Love and Healing", name: "The Tender Self Simmer",
+    desc: "For when you have been hard on yourself and need to come back.",
+    ingredients: ["Rose petals", "Chamomile flowers", "Lemon balm", "Vanilla bean", "A small piece of orange peel"],
+    method: "Make this for yourself the way you would make something for someone you love. Take your time. Add each ingredient slowly. As it simmers, place your hands over your heart and breathe. You deserve this exact tenderness.",
+    moon: "New Moon (setting intentions of self-care) or Full Moon",
+    affirmation: "I am worthy of gentleness. I deserve the same care I give others."
+  }
+];
+simmerPots.push.apply(simmerPots, moreSimmers);
+
+// ============================================================
+// MORE HERBS — added
+// ============================================================
+var moreHerbs = [
+  { name: "Yarrow", latin: "Achillea millefolium", element: "Water / Air", planet: "Venus", season: "Summer",
+    uses: "Protection of the heart, courage, psychic opening, healing emotional wounds, boundary work. Named for Achilles, who used it to heal warriors. Excellent for protecting yourself while remaining open.",
+    bonus: "Carry in a sachet for emotional courage. In simmer pots for heart protection." },
+  { name: "Elderflower", latin: "Sambucus nigra", element: "Water / Air", planet: "Venus", season: "Spring / Summer",
+    uses: "Renewal, transformation, spiritual cleansing, clarity after confusion, gentle healing. Associated with the crone and threshold work. Bridges the old and the new.",
+    bonus: "Elderflower tea for clarity. Note: raw elder berries are toxic — use flowers or fully ripe berries only." },
+  { name: "Calendula", latin: "Calendula officinalis", element: "Fire", planet: "Sun", season: "Summer",
+    uses: "Warmth, protection, joy, healing, psychic development, solar energy. Called pot marigold. Brings sunshine into dark emotional spaces. Excellent for grief and melancholy.",
+    bonus: "Infuse in oil for skin healing. Petals in bath for warmth and protection." },
+  { name: "Hyssop", latin: "Hyssopus officinalis", element: "Fire", planet: "Jupiter", season: "Summer",
+    uses: "Purification, protection, cleansing negative attachments, forgiveness, reconnection. One of the oldest purification herbs. Used biblically for ritual washing. Excellent for energetic resetting.",
+    bonus: "Wash hands with hyssop water before ritual. In floor washes for deep cleansing." },
+  { name: "Dandelion", latin: "Taraxacum officinale", element: "Air", planet: "Jupiter / Sun", season: "Spring",
+    uses: "Wishes, transformation, resilience, communication with spirits, divination, calling in what you want. The most overlooked magical plant. Every part is useful. Blowing dandelion seeds is a spell.",
+    bonus: "Dandelion root tea for divination. Blow seeds with intention. Grows everywhere for a reason." },
+  { name: "Hawthorn", latin: "Crataegus monogyna", element: "Fire", planet: "Mars", season: "Spring",
+    uses: "Heart healing, protection, hope, fairy magic, boundaries, love that has teeth. Sacred to the Celts. Associated with Beltane. Offers the medicine of thorns: love that also protects itself.",
+    bonus: "Hawthorn berries in simmer pots. Branches for protective wards on doors. NOT in pregnancy." },
+  { name: "Nettle", latin: "Urtica dioica", element: "Fire", planet: "Mars", season: "Spring",
+    uses: "Protection, grounding, resilience, healing, warding off negative energy. Fierce, earthy, and misunderstood. Nettle sting is medicine. This plant protects by having strong boundaries — a lesson in itself.",
+    bonus: "Nettle tea for grounding and resilience. Dried nettle in protective sachets." }
+];
+herbs.push.apply(herbs, moreHerbs);
+
+// ============================================================
+// NEW CHORE SECTION — Outdoor & Garden
+// ============================================================
+choreData.push({
+  section: "Outdoor & Garden Work — Earth Connection, Deep Root Healing",
+  sectionNote: "Garden and outdoor work is the most direct root chakra practice available to you. Hands in soil, bare feet on earth, tending growing things — this is ancient medicine. No garden required; a single pot on a patio counts.",
+  items: [
+    { emoji: "🌱", name: "Planting Seeds or Seedlings", chakra: "Root Chakra — Grounding, New Beginnings",
+      desc: "Planting is one of the most potent acts of faith a witch can perform. You place something small and fragile into the dark and trust it to become. As you plant, set an intention that mirrors what you are growing in your own life. Bury the seed and speak your intention aloud. Water it as you water your own hopes — consistently, without forcing it to bloom on your schedule." },
+    { emoji: "🌾", name: "Weeding", chakra: "Root + Solar Plexus Chakra — Clearing, Discernment, Will",
+      desc: "Weeding is one of the most underrated spiritual practices. You are physically removing what does not belong — what takes resources from what you are intentionally growing. As you pull each weed, name what you are clearing from your life: old beliefs, draining habits, relationships that have taken root without permission. Work counterclockwise in the garden when clearing and releasing." },
+    { emoji: "🌍", name: "Barefoot Earthing", chakra: "Root Chakra — Primary, Direct",
+      desc: "The simplest and most powerful root chakra practice: remove your shoes and stand on actual earth. Grass, soil, sand, or stone. Science calls this earthing — the transfer of the earth's electrons into the body through direct contact. Witches have known it for millennia. Stand for at least 10 minutes. Breathe. Visualize red light at the base of your spine extending roots downward. Let the earth take the weight you have been carrying." },
+    { emoji: "💧", name: "Watering Plants with Intention", chakra: "Sacral + Heart Chakra — Nurturing, Flow",
+      desc: "Water is a carrier of intention. As you water your plants, pour love and care into the act. Speak to them — name what you want to cultivate. Use moon water when you have it: full moon water for plants you want to flourish abundantly, new moon water for seeds and new starts, waning moon water for plants you are trimming back or ending. The garden responds to your energy. It is always listening." },
+    { emoji: "🍂", name: "Composting and Returning to Earth", chakra: "Root Chakra — Completion, the Sacred Cycle",
+      desc: "Composting is a practice of death and resurrection — the most honest magical cycle there is. What has ended becomes the foundation for what is next. As you compost spent simmer pot ingredients, wilted flowers, or kitchen scraps, say aloud: I return this with gratitude. Nothing is wasted. Everything transforms. This is a root chakra practice and an honoring of the earth's generosity." }
+  ]
+});
+// Rebuild choreFlat after adding new section
+choreFlat.length = 0;
+choreData.forEach(function(section) {
+  section.items.forEach(function(item) { choreFlat.push(item); });
+});
+
+// ============================================================
+// CRYSTAL DATA
+// ============================================================
+var crystals = [
+  { name: "Clear Quartz", color: "Clear / White", chakra: "All — Crown primary", element: "All",
+    uses: "The universal amplifier. Magnifies the energy and intention of everything it is placed near. Programs easily to any intention. Excellent for altar work, spell amplification, and clarity of mind.",
+    how: "Place on altar to amplify other stones and workings. Hold while setting intentions. Charge in full moonlight monthly.",
+    bonus: "The most important stone to have. If you only own one, make it this." },
+  { name: "Amethyst", color: "Purple / Violet", chakra: "Crown + Third Eye", element: "Air / Water",
+    uses: "Peace, spiritual connection, enhanced intuition, protection, dreamwork, sobriety, emotional healing. Calms an overactive mind. The stone of the green witch seeking deeper spiritual awareness.",
+    how: "Place on the third eye during meditation. Keep by the bed for rest and dreams. Carry for calm clarity.",
+    bonus: "Excellent for anxiety and overstimulation. Pairs beautifully with lavender." },
+  { name: "Rose Quartz", color: "Soft Pink", chakra: "Heart (Anahata)", element: "Water",
+    uses: "Unconditional love, self-compassion, emotional healing, grief work, inviting and strengthening love. The stone of the heart chakra. Works on self-love first — which is the prerequisite for all the rest.",
+    how: "Hold over the heart during grief or emotional work. Place in the bedroom. Carry when longing for connection.",
+    bonus: "Pair with rose petals in simmer pots for amplified heart healing." },
+  { name: "Black Tourmaline", color: "Black", chakra: "Root (Muladhara)", element: "Earth",
+    uses: "Protection, energetic shielding, grounding, absorbing negative energy, warding. One of the most protective stones available. Creates a barrier against ill will, psychic drain, and environmental negativity.",
+    how: "Place in the four corners of a room. Carry for personal protection. Keep near the front door.",
+    bonus: "Cleanse regularly — it absorbs a lot. Bury in earth overnight to reset." },
+  { name: "Hematite", color: "Silver-Black (metallic)", chakra: "Root (Muladhara)", element: "Fire / Earth",
+    uses: "Grounding, stability, protection, willpower, confidence, reconnection to the body. The root chakra stone for anyone feeling unmoored. Called the blood stone — it draws you back into your body.",
+    how: "Carry in pocket when anxious or dissociated. Hold during grounding meditation. Place at feet during bodywork.",
+    bonus: "Heavy and grounding in the hand — just holding it helps." },
+  { name: "Citrine", color: "Yellow / Golden", chakra: "Solar Plexus (Manipura)", element: "Fire",
+    uses: "Abundance, joy, confidence, creativity, manifestation, solar energy, self-esteem. Called the merchant's stone. Does not accumulate negative energy — one of the few stones that never needs cleansing.",
+    how: "Keep in wallet or cash register for abundance. Place on the solar plexus during intention work. Carry for confidence.",
+    bonus: "Natural citrine is pale yellow. Bright orange citrine is usually heat-treated amethyst — both are fine to use." },
+  { name: "Carnelian", color: "Orange / Red-Orange", chakra: "Sacral (Svadhisthana)", element: "Fire",
+    uses: "Creativity, courage, action, personal power, vitality, motivation, sexuality and sensuality. The stone for when you need to move but feel stuck. Kick-starts the sacral and solar plexus chakras.",
+    how: "Carry when facing creative blocks or avoidance. Wear or hold when you need courage to begin.",
+    bonus: "Excellent for stagnation entries. Pairs with cinnamon and orange in simmer work." },
+  { name: "Moonstone", color: "White / Peach / Blue shimmer", chakra: "Crown + Sacral", element: "Water",
+    uses: "Lunar connection, intuition, emotional balance, new beginnings, cycles, feminine energy, dreamwork. The stone of the moon. Supports working with lunar cycles and navigating emotional tides.",
+    how: "Charge under the full moon monthly. Wear during moon rituals. Keep on the altar during lunar work.",
+    bonus: "Pairs with moon water and mugwort for powerful dreamwork and intuition." },
+  { name: "Obsidian", color: "Black (volcanic glass)", chakra: "Root (Muladhara)", element: "Fire / Earth",
+    uses: "Truth, protection, shadow work, psychic shielding, releasing what is hidden, grief processing. Volcanic — formed in transformation. Forces you to see clearly. Not always comfortable, but always necessary.",
+    how: "Use during shadow work and difficult inner journeys. Place on altar for protection. Apache Tear obsidian is gentler for grief.",
+    bonus: "Not for everyday carry unless you are ready for intensity. It will surface what needs surfacing." },
+  { name: "Labradorite", color: "Grey with blue/gold flash", chakra: "Third Eye + Crown", element: "Water / Air",
+    uses: "Transformation, magic, psychic protection, illuminating the path through change, intuition, the liminal. The stone of the in-between. Excellent for transitions, uncertainty, and navigating what cannot yet be seen.",
+    how: "Carry during major life transitions. Hold before divination. Keep on the altar during periods of change.",
+    bonus: "Flash reveals itself at angles — like intuition, it rewards patience and the right light." },
+  { name: "Green Aventurine", color: "Green, flecked with gold", chakra: "Heart (Anahata)", element: "Earth / Water",
+    uses: "Luck, abundance, heart healing, optimism, new opportunities, growth. The luckiest stone in many traditions. Green for growth — both of the heart and of material wellbeing.",
+    how: "Carry when making decisions or beginning new ventures. Place on heart during healing work. Keep in wallet.",
+    bonus: "Excellent for jealousy work — helps you believe in your own abundance." },
+  { name: "Selenite", color: "White / Translucent", chakra: "Crown + Higher Crown", element: "Air / Spirit",
+    uses: "Cleansing other crystals and spaces, high-frequency energy, clarity, angelic connection, removing stagnant energy. One of the few stones that cleanses other stones. A constant cleanser.",
+    how: "Place other crystals on a selenite plate to cleanse them. Use a wand to sweep the aura. Keep on altar.",
+    bonus: "NEVER get selenite wet — it will dissolve. Cleanse with moonlight or sound only." },
+  { name: "Lapis Lazuli", color: "Deep Blue with gold flecks", chakra: "Third Eye + Throat", element: "Water / Air",
+    uses: "Truth, wisdom, communication, self-expression, psychic development, inner knowing. Ancient and powerful. Used by Egyptians for spiritual sight. Helps you speak your deepest truth.",
+    how: "Wear or hold before difficult conversations. Place on the third eye during meditation. Use in throat chakra work.",
+    bonus: "Pairs with thyme for courage to speak what is true." },
+  { name: "Red Jasper", color: "Deep Red / Brick", chakra: "Root (Muladhara)", element: "Earth",
+    uses: "Grounding, stability, endurance, courage, physical vitality, earthing. A steady, slow, reliable root chakra stone. Less intense than hematite — good for daily grounding and sustained courage.",
+    how: "Carry for steady grounding during long stressful periods. Place at the root of your altar or sacred space.",
+    bonus: "Excellent for burnout recovery — grounds without overwhelming." },
+  { name: "Lepidolite", color: "Lilac / Purple / Pink", chakra: "Heart + Crown + Third Eye", element: "Water / Air",
+    uses: "Anxiety relief, emotional balance, transition support, sleep, releasing old patterns, grief. Contains natural lithium. One of the most genuinely calming stones. Excellent for anxiety, overstimulation, and loss.",
+    how: "Hold during anxiety or panic. Keep by the bed for restless nights. Carry during times of loss or upheaval.",
+    bonus: "Gentle enough for everyday use. Pairs with lavender and chamomile beautifully." },
+  { name: "Smoky Quartz", color: "Brown / Grey / Translucent", chakra: "Root (Muladhara)", element: "Earth",
+    uses: "Grounding, transmuting negative energy into positive, protection, releasing what no longer serves, anchoring. Gentle and steady. Excellent for burnout, grief, and when life feels overwhelming.",
+    how: "Hold when you need to be brought back to earth. Place in living spaces to absorb ambient negativity.",
+    bonus: "One of the best stones for burnout and emotional exhaustion." }
+];
+
+// Moon water content
+var moonWaterContent = {
+  make: [
+    "Choose a clean glass jar or container with a lid.",
+    "Fill with filtered, spring, or tap water — the vessel and your intention matter more than water source.",
+    "Set your intention clearly: what do you want this water charged with?",
+    "Place outside under the moonlight, or on a windowsill where moonlight can reach it.",
+    "Cover loosely to keep debris out while allowing energy in.",
+    "Leave overnight. Retrieve in the morning before direct sunlight hits it (optional — this is tradition, not requirement).",
+    "Label with the moon phase and your intention. Store in a cool, dark place."
+  ],
+  byPhase: [
+    { phase: "Full Moon Water", use: "Most powerful. Use for manifestation, amplification, cleansing, charging crystals, ritual baths, and any high-intention work." },
+    { phase: "New Moon Water", use: "New beginnings, intention-setting, fresh starts, planting seeds literally and metaphorically. Add to simmer pots for new chapter magic." },
+    { phase: "Waxing Moon Water", use: "Growth, attraction, building. Use when you are adding something to your life." },
+    { phase: "Waning Moon Water", use: "Release, banishing, letting go. Use in floor washes to cleanse a space of what has accumulated." }
+  ],
+  uses: [
+    "Add to simmer pots in place of plain water to amplify the spell.",
+    "Sprinkle around your home for energetic cleansing — especially after conflict or illness.",
+    "Add to ritual baths for spiritual purification.",
+    "Water your plants for an extra charge of growth energy.",
+    "Rinse crystals (water-safe ones only) to cleanse and recharge them.",
+    "Wipe mirrors and windows to clarify energy and improve divination.",
+    "Dab on pulse points before ritual, meditation, or important moments.",
+    "Use in floor washes for deep home cleansing.",
+    "Add a few drops to your cleaning water when doing intentional chores.",
+    "If made with safe filtered water: drink in small amounts to internalize the intention."
+  ],
+  safety: "Only drink moon water made with clean, filtered water in a sterile container. Do not drink water that has been sitting uncovered outside. Some crystals are toxic in water (malachite, pyrite) — do not use crystal-infused water internally."
+};
+
+// ============================================================
+// RENDER CRYSTALS
+// ============================================================
+function renderCrystals() {
+  var grid = document.getElementById("crystal-grid");
+  grid.innerHTML = crystals.map(function(c, i) {
+    return '<div class="herb-card" onclick="openCrystal(' + i + ')">' +
+      '<div class="herb-name">' + c.name + '</div>' +
+      '<div class="herb-element">\u2B21 ' + c.chakra + '</div>' +
+      '<div class="herb-uses">' + c.uses.substring(0, 80) + '&hellip;</div>' +
+      '</div>';
+  }).join("");
+}
+
+function openCrystal(i) {
+  var c = crystals[i];
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">Crystal Directory</div>' +
+    '<div class="overlay-title">' + c.name + '</div>' +
+    '<p style="font-size:0.8rem;color:var(--sage);font-style:italic;margin-bottom:4px;">' + c.color + '</p>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Correspondences</div><ul class="overlay-list">' +
+    '<li><strong>Chakra:</strong> ' + c.chakra + '</li>' +
+    '<li><strong>Element:</strong> ' + c.element + '</li>' +
+    '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Magical and Energetic Uses</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + c.uses + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">How to Work With It</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + c.how + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Witch\'s Note</div><div class="overlay-affirmation">' + c.bonus + '</div></div>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+// ============================================================
+// RENDER MOON WATER
+// ============================================================
+function renderMoonWater() {
+  var box = document.getElementById("moon-water-box");
+  var makeList = moonWaterContent.make.map(function(s,i){return '<li>'+s+'</li>';}).join('');
+  var phaseList = moonWaterContent.byPhase.map(function(p){
+    return '<li><strong>'+p.phase+':</strong> '+p.use+'</li>';
+  }).join('');
+  var useList = moonWaterContent.uses.map(function(u){return '<li>'+u+'</li>';}).join('');
+  box.innerHTML =
+    '<div class="overlay-section"><div class="overlay-section-title">How to Make It</div><ul class="overlay-list">' + makeList + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Energy by Phase</div><ul class="overlay-list">' + phaseList + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Ways to Use Moon Water</div><ul class="overlay-list">' + useList + '</ul></div>' +
+    '<div class="overlay-affirmation" style="margin-top:16px;">' + moonWaterContent.safety + '</div>';
+}
+
+// ============================================================
+// MORE HERBS — Round 2 (no duplicates)
+// ============================================================
+var herbs2 = [
+  { name: "Valerian", latin: "Valeriana officinalis", element: "Water", planet: "Venus / Mercury", season: "Summer",
+    uses: "Deep sleep, nervous system calm, protection, purification, love. One of the most effective herbs for sleep and anxiety. Also used in warding — its strong scent repels and protects. In dream sachets it guides meaningful dreams.",
+    bonus: "NOT safe in pregnancy or with sedative medications. Tea before sleep. Keep sachets away from cats — they love it like catnip." },
+  { name: "Vervain", latin: "Verbena officinalis", element: "Water / Earth", planet: "Venus", season: "Summer",
+    uses: "Protection, purification, healing, peace, love, second sight, consecration of tools and spaces. Called the Enchanter's Herb — sacred to Druids, ancient Romans, and Egyptians alike. Enhances the power of all herbs combined with it.",
+    bonus: "Sprinkle vervain-infused water on your altar or tools to consecrate them. One of the oldest purification herbs known." },
+  { name: "St. John's Wort", latin: "Hypericum perforatum", element: "Fire", planet: "Sun", season: "Summer",
+    uses: "Banishing darkness, protection against negativity and evil, courage, strength, healing. Called the devil-chaser historically. A solar herb that brings light into dark emotional spaces. Particularly for depression and melancholy.",
+    bonus: "Hang dried sprigs above doorways for protection. INTERACTS with many medications — research before internal use." },
+  { name: "Passionflower", latin: "Passiflora incarnata", element: "Water", planet: "Venus", season: "Summer",
+    uses: "Peace, sleep, calming anxiety, friendships, attracting gentle love, psychic dreams. A deeply calming herb for an overactive mind. Used in sleep pillows and tea for rest. Brings a soft, quieting presence to any blend.",
+    bonus: "Tea before bed for calm sleep. Excellent in dream pillows with lavender and mugwort." },
+  { name: "Frankincense", latin: "Boswellia sacra (resin)", element: "Fire", planet: "Sun", season: "Year-round",
+    uses: "Spiritual connection, raising vibration, purification, consecration, protection, blessings. One of the most sacred resins across cultures. Burns as incense to purify spaces and elevate ritual. Amplifies prayers and intentions.",
+    bonus: "Burn on charcoal discs before ritual. Pairs with myrrh for deep purification. Available as resin or essential oil." },
+  { name: "Myrrh", latin: "Commiphora myrrha (resin)", element: "Water", planet: "Moon / Saturn", season: "Year-round",
+    uses: "Healing, protection, purification, grief work, connection to ancestors and the dead, shadow work. An ancient funerary and sacred resin. Works deeply in grief and transformation. Slows and deepens spiritual space.",
+    bonus: "Burn with frankincense for powerful ritual cleansing. Good for ancestor altar and deep shadow work." },
+  { name: "Ginger", latin: "Zingiber officinale", element: "Fire", planet: "Mars", season: "Year-round",
+    uses: "Energy, momentum, fast results, success, courage, love, power. A fiery activating herb that speeds up and amplifies any working it is added to. Excellent for stagnation and inertia.",
+    bonus: "Add to simmer pots when you need results quickly. Fresh or dried — both effective." },
+  { name: "Rosehip", latin: "Rosa canina (fruit)", element: "Water", planet: "Venus", season: "Autumn",
+    uses: "Love, healing, luck, psychic powers, protection. The fruit of the rose — carries the same heart-healing energy in a more earthy, grounded form. Excellent for tea magic, love workings, and immune support.",
+    bonus: "Rosehip tea for heart healing and gentle love magic. Rich in vitamin C — physical and energetic nourishment." },
+  { name: "Eucalyptus", latin: "Eucalyptus globulus", element: "Water / Air", planet: "Moon", season: "Year-round",
+    uses: "Healing, purification, clearing negativity, protection, fresh starts, health. Strongly cleansing and clarifying. Excellent for removing stagnant energy from sick rooms or spaces that need resetting.",
+    bonus: "Add a few drops of essential oil to cleaning water for powerful space clearing. Hang dried bundles in the shower — steam releases the oils." },
+  { name: "Violet", latin: "Viola odorata", element: "Water", planet: "Venus", season: "Spring",
+    uses: "Love, luck, protection, wishes, peace, healing grief and sorrow, comfort. A gentle, deeply soothing herb associated with tenderness and sympathy. Used to ease grief and create a soft, loving energetic environment.",
+    bonus: "Crystallized violets as offerings. Dried petals in grief sachets. In simmer pots for comfort after loss." }
+];
+herbs.push.apply(herbs, herbs2);
+
+// ============================================================
+// MORE CRYSTALS — Round 2 (no duplicates)
+// ============================================================
+var crystals2 = [
+  { name: "Tiger's Eye", color: "Golden Brown with chatoyant bands", chakra: "Solar Plexus + Root", element: "Fire / Earth",
+    uses: "Courage, confidence, protection, clarity, grounding action, seeing through illusion. A warrior stone. Combines the grounding of earth with the fire of action. Excellent for decision-making, overcoming fear, and manifesting with clarity.",
+    how: "Carry when facing fear or doubt. Hold before making important decisions. Wear for sustained courage.",
+    bonus: "One of the best stones for jealousy — it helps you see your own path clearly instead of coveting another's." },
+  { name: "Malachite", color: "Deep Green with banded swirls", chakra: "Heart (Anahata)", element: "Earth / Fire",
+    uses: "Transformation, protection, emotional healing, amplifying energy, drawing out what is hidden. Called the stone of transformation. It surfaces subconscious patterns for healing — it will show you what needs to change. Also protects children.",
+    how: "Use during deep healing or shadow work. Place on the heart. NOT in water — toxic when dissolved.",
+    bonus: "NEVER make crystal-infused water with malachite. Polished form is safe to handle. Powerful but intense — work with intention." },
+  { name: "Pyrite", color: "Gold / Brass metallic", chakra: "Solar Plexus (Manipura)", element: "Fire / Earth",
+    uses: "Abundance, prosperity, confidence, mental clarity, protection from negative energy, manifestation. Called Fool's Gold — but it is no fool's tool. Pyrite is serious wealth magic and powerful solar plexus work.",
+    how: "Place on your altar or desk for abundance. Hold during manifestation work. Keep in your workspace for prosperity and focus.",
+    bonus: "Pairs beautifully with citrine for abundance magic. Can oxidize over time — keep dry." },
+  { name: "Fluorite", color: "Purple, green, clear, or rainbow banded", chakra: "Third Eye + Crown", element: "Air / Water",
+    uses: "Clarity, focus, decision-making, psychic protection, mental organization, truth-seeking, dispelling confusion. Excellent for chaotic or overwhelmed minds. Absorbs and neutralizes negative energy and stress. A study and clarity stone.",
+    how: "Hold during mental overwhelm. Keep on desk for focus. Cleanse regularly — it absorbs a lot.",
+    bonus: "Different colors have slightly different emphases: green for heart and growth, purple for psychic and spiritual clarity, clear for universal." },
+  { name: "Blue Lace Agate", color: "Pale Blue with lacy white bands", chakra: "Throat (Vishuddha)", element: "Water / Air",
+    uses: "Calm communication, speaking truth with gentleness, emotional peace, soothing anxiety, clarity of expression. One of the most calming stones available. Works beautifully for the throat chakra and for anyone who struggles to be heard.",
+    how: "Hold before difficult conversations. Wear at the throat. Keep in spaces where conflict has occurred to soften the energy.",
+    bonus: "Excellent for conflict entries — gentle enough to wear daily. Pairs with lavender perfectly." },
+  { name: "Sunstone", color: "Orange / Peach / Gold with shimmer", chakra: "Sacral + Solar Plexus", element: "Fire",
+    uses: "Joy, vitality, confidence, self-empowerment, light-bringing, optimism, creativity. A solar stone for the dark seasons. Brings warmth, personal power, and the ability to say yes to life. Excellent for depression and low vitality.",
+    how: "Carry or wear during dark seasons or low-energy periods. Hold while setting intentions of joy and growth.",
+    bonus: "Pairs with moonstone for solar-lunar balance. Excellent for the Joy entry." },
+  { name: "Rhodonite", color: "Rose Pink with black veining", chakra: "Heart (Anahata)", element: "Earth / Fire",
+    uses: "Emotional healing, forgiveness, compassion, recovering from betrayal or heartbreak, self-worth, balancing love with boundaries. Called the Rescue Stone. The go-to for heartbreak and betrayal. Helps you love without losing yourself.",
+    how: "Carry after relationship wounds. Place on the heart during healing meditation. Hold when working toward forgiveness.",
+    bonus: "Distinct from rose quartz — rhodonite is grittier, earthier. It heals and protects simultaneously." },
+  { name: "Turquoise", color: "Sky Blue / Teal with veining", chakra: "Throat + Heart", element: "Air / Earth / Water",
+    uses: "Protection, truth, communication, spiritual connection, luck, wholeness, bridging worlds. One of the oldest protective amulets known. Sacred to many Indigenous cultures — use ethically sourced stone and with respect.",
+    how: "Wear as a talisman for protection and truth-speaking. Carry when traveling. Use in communication and heart chakra work.",
+    bonus: "Handle ethically — much turquoise is synthetic. Howlite dyed blue is often sold as turquoise. Research your sources." },
+  { name: "Howlite", color: "White / Grey with grey veining", chakra: "Crown + Third Eye", element: "Air",
+    uses: "Calming an overactive mind, patience, sleep, absorbing anger and anxiety, stillness, preparation for meditation. One of the most calming stones. Excellent for anyone who cannot turn their mind off at night.",
+    how: "Place under pillow for sleep. Hold during anxious moments. Keep in spaces where tempers run high.",
+    bonus: "Affordable and widely available. One of the best stones for overstimulation and racing thoughts." },
+  { name: "Moss Agate", color: "Clear / White with green moss-like inclusions", chakra: "Heart + Root", element: "Earth",
+    uses: "Connection to nature, growth, abundance, gardening magic, new beginnings, grounding, fertility. The green witch's stone par excellence. Connects you to the natural world and supports anything you are growing — plants or projects.",
+    how: "Bury in garden soil for growth magic. Carry when starting new creative projects. Keep with house plants.",
+    bonus: "A gardener's stone. Excellent for green witch practice and outdoor ritual." },
+  { name: "Sodalite", color: "Deep Blue with white streaks", chakra: "Throat + Third Eye", element: "Water / Air",
+    uses: "Logic, truth, communication, clarity, self-expression, inner knowing, calming emotional storms. Helps you think before you speak. Brings mental clarity and the ability to express what you truly mean.",
+    how: "Carry when you need to communicate clearly and honestly. Hold during journaling or shadow work.",
+    bonus: "Distinct from lapis lazuli — sodalite is more about logical clarity; lapis is more about wisdom and psychic sight." },
+  { name: "Amazonite", color: "Teal / Turquoise Green", chakra: "Throat + Heart", element: "Water / Earth",
+    uses: "Truth, boundaries, hope, courage in communication, harmony, soothing emotional trauma. Called the stone of hope and courage. Helps you speak your truth without fear. Excellent for setting and enforcing boundaries.",
+    how: "Carry when you need courage to say what is true. Hold when setting or communicating limits.",
+    bonus: "Excellent for the Conflict entry — it supports honest, heart-centered communication." },
+  { name: "Garnet", color: "Deep Red / Burgundy", chakra: "Root (Muladhara)", element: "Fire / Earth",
+    uses: "Passion, vitality, grounding, protection during travel, commitment, regeneration, loyalty. A deeply grounding and energizing root chakra stone. Boosts physical energy and courage. Strong protective magic, especially in crowds or travel.",
+    how: "Carry during travel or large gatherings for protection. Wear for sustained physical and creative energy.",
+    bonus: "Adds power to any spell when placed on the altar. Garnet is loyal — it amplifies whatever you are working toward." }
+];
+crystals.push.apply(crystals, crystals2);
+
+// ============================================================
+// CHAKRA GUIDE DATA
+// ============================================================
+var chakras = [
+  {
+    number: "1", symbol: "🔴", name: "Root Chakra", sanskrit: "Muladhara",
+    color: "Red", location: "Base of the spine / perineum / coccyx",
+    element: "Earth", mantra: "LAM", petals: "4-petaled lotus",
+    governs: "Survival, safety, security, grounding, physical identity, primal instincts, connection to the physical world and earth",
+    balanced: "Feeling safe, stable, and grounded. Trust in life. Financial stability. Present in the body. Resilient under pressure.",
+    blocked: "Fear, anxiety, financial worry, insecurity about basic needs, chronic restlessness, feeling unmoored or unsafe in the body",
+    physical: "Lower back pain, constipation, leg and foot problems, issues with the bladder or colon, immune disorders",
+    overactive: "Aggression, hoarding, excessive materialism, rigidity, obsession with security",
+    healing: [
+      "Walk barefoot on earth — grass, soil, sand",
+      "Root vegetables: beets, carrots, potatoes, radishes — eat them grounded",
+      "Physical movement: yoga, walking, dancing",
+      "Grounding meditation: visualize red light at the base of your spine, roots extending deep into the earth",
+      "Declutter your home — physical order creates energetic order",
+      "Intentional chores: sweeping, making the bed, tending the home"
+    ],
+    herbs: "Comfrey, cedar, nettle, valerian, dandelion root, burdock",
+    crystals: "Hematite, black tourmaline, red jasper, garnet, smoky quartz, obsidian",
+    affirmation: "I am safe. I am grounded. I belong to this earth and this earth belongs to me."
+  },
+  {
+    number: "2", symbol: "🟠", name: "Sacral Chakra", sanskrit: "Svadhisthana",
+    color: "Orange", location: "Lower abdomen, 1-2 inches below the navel",
+    element: "Water", mantra: "VAM", petals: "6-petaled lotus",
+    governs: "Creativity, sensuality, emotions, pleasure, desire, relationships, the ability to adapt and flow, passion and joy",
+    balanced: "Creative and expressive, comfortable with emotions and pleasure, spontaneous, connected to desire and sensuality, emotionally fluid",
+    blocked: "Creative blocks, emotional numbness, guilt around pleasure or sexuality, relationship difficulties, rigidity, stagnation",
+    physical: "Lower back pain, hip problems, urinary tract issues, reproductive issues, lower abdominal tension",
+    overactive: "Emotional volatility, addictions, over-attachment, manipulation, excessive need for stimulation",
+    healing: [
+      "Creative expression: paint, write, sing, dance — without judgment",
+      "Time near water: baths, rivers, oceans",
+      "Hip-opening movement and dance — sacral energy lives in the hips",
+      "Allow yourself pleasure without guilt",
+      "Journal about desires, creativity, and what brings you joy",
+      "Orange foods: oranges, mangoes, carrots, sweet potatoes"
+    ],
+    herbs: "Calendula, orange peel, cinnamon, ginger, vanilla, hibiscus",
+    crystals: "Carnelian, orange calcite, sunstone, moonstone, tiger's eye",
+    affirmation: "I feel. I create. I am worthy of pleasure and joy. I flow with life."
+  },
+  {
+    number: "3", symbol: "🟡", name: "Solar Plexus Chakra", sanskrit: "Manipura",
+    color: "Yellow", location: "Upper abdomen, between navel and sternum",
+    element: "Fire", mantra: "RAM", petals: "10-petaled lotus",
+    governs: "Personal power, self-esteem, confidence, will, discipline, identity, autonomy, transformation, the ability to act and decide",
+    balanced: "Confident, decisive, self-motivated, clear personal boundaries, able to assert yourself without aggression, sense of self-worth",
+    blocked: "Low self-esteem, indecision, difficulty with boundaries, powerlessness, shame, perfectionism, giving power away to others",
+    physical: "Digestive issues, ulcers, heartburn, liver problems, diabetes, eating disorders, fatigue",
+    overactive: "Controlling behavior, arrogance, aggression, need to dominate, workaholism",
+    healing: [
+      "Spend time in sunlight — this chakra is solar",
+      "Complete tasks you have been avoiding — completion restores power",
+      "Core strengthening movement: yoga, pilates, any exercise that engages the belly",
+      "Set one clear boundary and honor it",
+      "Journal: Where have I given my power away? What would it look like to reclaim it?",
+      "Yellow foods: ginger, turmeric, bananas, corn, sunflower seeds"
+    ],
+    herbs: "Ginger, turmeric, cinnamon, mint, lemon, chamomile",
+    crystals: "Citrine, tiger's eye, pyrite, sunstone, yellow jasper",
+    affirmation: "I am powerful. I stand in my own authority. My will is clear and my boundaries are sacred."
+  },
+  {
+    number: "4", symbol: "💚", name: "Heart Chakra", sanskrit: "Anahata",
+    color: "Green (secondary: Pink)", location: "Center of the chest",
+    element: "Air", mantra: "YAM", petals: "12-petaled lotus",
+    governs: "Love, compassion, forgiveness, connection, empathy, self-love, relationships, the bridge between lower and higher chakras",
+    balanced: "Loving and compassionate, able to give and receive love freely, forgiving, connected to self and others, emotionally resilient",
+    blocked: "Loneliness, fear of intimacy, grief, inability to forgive, resentment, co-dependency, prioritizing others to your own detriment",
+    physical: "Heart problems, asthma, lung issues, upper back pain, immune deficiency, circulation issues",
+    overactive: "Smothering love, jealousy, possessiveness, losing self in others, giving to the point of depletion",
+    healing: [
+      "Spend time in nature — especially among trees, which are great heart chakra allies",
+      "Practice loving-kindness meditation (metta)",
+      "Write a letter of forgiveness — to yourself or another",
+      "Allow yourself to receive care as gracefully as you give it",
+      "Heart-opening yoga poses: camel pose, bridge pose, fish pose",
+      "Green foods: leafy greens, broccoli, avocado, green tea"
+    ],
+    herbs: "Rose, hawthorn, lavender, chamomile, lemon balm, elderflower, violet",
+    crystals: "Rose quartz, green aventurine, malachite, rhodonite, moss agate, amazonite",
+    affirmation: "I love and I am loved. My heart is open. Compassion flows through me freely."
+  },
+  {
+    number: "5", symbol: "🔵", name: "Throat Chakra", sanskrit: "Vishuddha",
+    color: "Blue", location: "Base of the throat / thyroid gland",
+    element: "Ether (Sound)", mantra: "HAM", petals: "16-petaled lotus",
+    governs: "Communication, self-expression, truth, authenticity, speaking your needs, listening, the ability to express your inner world outwardly",
+    balanced: "Clear, honest, and authentic communication. Ability to speak truth with compassion. Good listener. Creative expression flows freely.",
+    blocked: "Difficulty expressing yourself, fear of speaking up, chronic throat problems, talking too much or too little, holding back truth",
+    physical: "Sore throats, thyroid issues, neck and shoulder stiffness, jaw tension, dental problems, voice issues",
+    overactive: "Talking over others, inability to listen, speaking without thinking, gossiping, dominating conversation",
+    healing: [
+      "Sing — even if only alone. The throat chakra heals through sound.",
+      "Journal what you cannot say aloud — give your truth somewhere to live",
+      "Practice speaking a small truth you have been holding back",
+      "Neck and shoulder stretches — release the tension the throat chakra holds",
+      "Chanting or humming — the vibration directly stimulates this chakra",
+      "Blue foods: blueberries, blackberries, plums — and blue-purple foods"
+    ],
+    herbs: "Thyme, sage, lemon, peppermint, vervain, clove",
+    crystals: "Blue lace agate, turquoise, amazonite, sodalite, lapis lazuli, aquamarine",
+    affirmation: "I speak my truth with clarity and love. My voice matters. I am heard."
+  },
+  {
+    number: "6", symbol: "🟣", name: "Third Eye Chakra", sanskrit: "Ajna",
+    color: "Indigo / Deep Purple", location: "Between the eyebrows, slightly above",
+    element: "Light / Inner Vision", mantra: "OM / AUM", petals: "2-petaled lotus (though often depicted as 96)",
+    governs: "Intuition, insight, inner knowing, psychic ability, imagination, the ability to see beyond surface appearances, wisdom",
+    balanced: "Strong intuition you trust, vivid imagination, clarity of perception, ability to see patterns, prophetic dreams, inner guidance",
+    blocked: "Overthinking, inability to trust intuition, difficulty concentrating, closed-mindedness, nightmares, cynicism about spiritual matters",
+    physical: "Headaches, vision problems, sinus issues, dizziness, sleep disorders, neurological symptoms",
+    overactive: "Living too much in the head, detachment from reality, obsession with psychic matters, inability to be present",
+    healing: [
+      "Meditation — especially visualization practices",
+      "Keep a dream journal by the bed; record immediately upon waking",
+      "Spend time in the dark: sit with eyes closed, let inner vision arise",
+      "Tarot, oracle cards, or scrying as a regular practice",
+      "Trust one small intuitive impulse today and follow it",
+      "Indigo foods: blueberries, purple grapes, eggplant, blackberries"
+    ],
+    herbs: "Mugwort, lavender, frankincense, star anise, eyebright, rosemary",
+    crystals: "Amethyst, labradorite, lapis lazuli, fluorite, sodalite, moonstone",
+    affirmation: "I see clearly. I trust my inner knowing. My intuition is my greatest teacher."
+  },
+  {
+    number: "7", symbol: "⚪", name: "Crown Chakra", sanskrit: "Sahasrara",
+    color: "Violet / White / Gold", location: "Top of the head — and just above it",
+    element: "Thought / Consciousness / Spirit", mantra: "AUM / Silence", petals: "Thousand-petaled lotus",
+    governs: "Spiritual connection, consciousness, enlightenment, unity with something larger, divine wisdom, the experience of being part of everything",
+    balanced: "Deep spiritual peace, feeling connected to something greater, open to transcendent experiences, inner wisdom, trust in life's unfolding",
+    blocked: "Spiritual disconnection, cynicism, existential despair, loneliness at the soul level, inability to find meaning or purpose",
+    physical: "Chronic headaches, neurological issues, sensitivity to light and sound, mental fog, depression disconnected from circumstances",
+    overactive: "Spiritual bypassing (using spiritual ideas to avoid real-world responsibility), disconnection from body and physical life",
+    healing: [
+      "Meditation — especially open-awareness or surrender practices",
+      "Time in nature at dawn or dusk — liminal light opens the crown",
+      "Prayer, ritual, or any practice that connects you to something beyond yourself",
+      "Sit in silence without an agenda",
+      "Gratitude practices that cultivate awe and wonder",
+      "Fasting lightly, or eating light high-vibration foods: raw fruits and vegetables"
+    ],
+    herbs: "Frankincense, myrrh, lavender, lotus, mugwort, sandalwood",
+    crystals: "Clear quartz, selenite, amethyst, howlite, lepidolite, moonstone",
+    affirmation: "I am connected to all that is. I trust the wisdom of the universe. I am light."
+  }
+];
+
+// ============================================================
+// RENDER CHAKRAS
+// ============================================================
+function renderChakras() {
+  var grid = document.getElementById("chakra-grid");
+  if (!grid) return;
+  grid.innerHTML = chakras.map(function(c, i) {
+    return '<div class="herb-card" style="text-align:center;" onclick="openChakra(' + i + ')">' +
+      '<div style="font-size:1.8rem;margin-bottom:6px;">' + c.symbol + '</div>' +
+      '<div class="herb-name">' + c.name + '</div>' +
+      '<div class="herb-element">' + c.sanskrit + ' \u00B7 ' + c.color + '</div>' +
+      '<div class="herb-uses">' + c.governs.substring(0, 70) + '&hellip;</div>' +
+      '</div>';
+  }).join("");
+}
+
+function openChakra(i) {
+  var c = chakras[i];
+  var inner = document.getElementById("overlay-inner");
+  inner.innerHTML =
+    '<div class="overlay-tag">Chakra Guide</div>' +
+    '<div style="font-size:2rem;margin-bottom:4px;">' + c.symbol + '</div>' +
+    '<div class="overlay-title">' + c.number + '. ' + c.name + '</div>' +
+    '<p style="font-size:0.8rem;color:var(--sage);font-style:italic;margin-bottom:4px;">' + c.sanskrit + ' \u00B7 ' + c.color + ' \u00B7 Element: ' + c.element + '</p>' +
+    '<p style="font-size:0.78rem;color:var(--ink-faded);margin-bottom:2px;">\uD83D\uDD51 Location: ' + c.location + '</p>' +
+    '<p style="font-size:0.78rem;color:var(--ink-faded);margin-bottom:2px;">\uD83C\uDFB5 Seed Mantra: ' + c.mantra + ' \u00B7 Symbol: ' + c.petals + '</p>' +
+    '<div class="overlay-divider"></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">What It Governs</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + c.governs + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">When Balanced</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.8;">' + c.balanced + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Signs of Blockage or Imbalance</div>' +
+    '<p style="font-size:0.85rem;color:var(--ink-faded);line-height:1.8;margin-bottom:6px;"><strong>Emotional:</strong> ' + c.blocked + '</p>' +
+    '<p style="font-size:0.85rem;color:var(--ink-faded);line-height:1.8;margin-bottom:6px;"><strong>Physical:</strong> ' + c.physical + '</p>' +
+    '<p style="font-size:0.85rem;color:var(--ink-faded);line-height:1.8;"><strong>Overactive:</strong> ' + c.overactive + '</p>' +
+    '</div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Healing Practices</div><ul class="overlay-list">' + c.healing.map(function(h){return '<li>'+h+'</li>';}).join('') + '</ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Herbs for This Chakra</div><p class="overlay-text">' + c.herbs + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Crystals for This Chakra</div><p class="overlay-text">' + c.crystals + '</p></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Affirmation</div><div class="overlay-affirmation">' + c.affirmation + '</div></div>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+// ============================================================
+// INIT
+// ============================================================
+// Sort crystals alphabetically (herbs sorted inside renderHerbs)
+crystals.sort(function(a,b){ return a.name.localeCompare(b.name); });
+renderEntries();
+renderChores();
+renderSimmer();
+renderHerbs();
+renderMoon();
+renderCrystals();
+renderMoonWater();
+renderChakras();
+</script>
+</body>
+</html>
