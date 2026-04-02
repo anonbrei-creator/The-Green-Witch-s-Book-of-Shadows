@@ -849,6 +849,16 @@
         <p class="intro-text">
           Every plant has a story — one rooted in the soil but also in centuries of symbolism, folk practice, and energetic correspondence. Learn these allies. Work with one or two at a time. Build a relationship before expanding your apothecary.
         </p>
+        <!-- SORT MODE TABS -->
+        <div id="herb-sort-tabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+          <button class="herb-sort-btn active" onclick="setHerbSort('alpha',this)" style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);background:rgba(184,134,11,0.18);border:1px solid var(--gold);border-radius:3px;padding:7px 14px;cursor:pointer;transition:all 0.2s;">⬡ A–Z Alphabetical</button>
+          <button class="herb-sort-btn" onclick="setHerbSort('function',this)" style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage-muted);background:rgba(107,124,90,0.12);border:1px solid rgba(107,124,90,0.4);border-radius:3px;padding:7px 14px;cursor:pointer;transition:all 0.2s;">✦ By Bodily Function</button>
+          <button class="herb-sort-btn" onclick="setHerbSort('system',this)" style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage-muted);background:rgba(107,124,90,0.12);border:1px solid rgba(107,124,90,0.4);border-radius:3px;padding:7px 14px;cursor:pointer;transition:all 0.2s;">☽ By Body System</button>
+          <button class="herb-sort-btn" onclick="setHerbSort('chakra',this)" style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage-muted);background:rgba(107,124,90,0.12);border:1px solid rgba(107,124,90,0.4);border-radius:3px;padding:7px 14px;cursor:pointer;transition:all 0.2s;">◎ By Chakra</button>
+        </div>
+        <!-- FILTER PILLS (shown contextually) -->
+        <div id="herb-filter-bar" style="display:none;flex-wrap:wrap;gap:5px;margin-bottom:18px;padding:10px 12px;background:rgba(255,255,255,0.25);border:1px solid var(--parchment-shadow);border-radius:4px;"></div>
+        <!-- A-Z nav (shown in alpha mode) -->
         <div id="herb-az-nav" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:24px;padding:12px;background:rgba(255,255,255,0.3);border:1px solid var(--parchment-shadow);border-radius:4px;"></div>
         <div id="herb-grid"></div>
       </div>
@@ -1659,50 +1669,308 @@ var herbs3 = [
 ];
 herbs.push.apply(herbs, herbs3);
 
+// ============================================================
+// HERB EXTENDED METADATA — bodily functions, body systems, chakras
+// Keys match herb names (lowercase, trimmed)
+// ============================================================
+var herbMeta = {
+  // format: { fn: [...], sys: [...], chakra: [...] }
+  // fn  = bodily function tags
+  // sys = body system tags
+  // chakra = chakra names supported
+  "rosemary":        { fn:["Anti-inflammatory","Antioxidant","Antimicrobial","Circulatory stimulant","Cognitive support","Carminative"], sys:["Nervous System","Digestive System","Cardiovascular System","Respiratory System","Musculoskeletal System"], chakra:["Solar Plexus","Third Eye"] },
+  "lavender":        { fn:["Nervine","Sedative","Antispasmodic","Antimicrobial","Anti-inflammatory","Analgesic"], sys:["Nervous System","Integumentary System","Respiratory System"], chakra:["Heart","Crown","Third Eye"] },
+  "chamomile":       { fn:["Nervine","Carminative","Anti-inflammatory","Antispasmodic","Analgesic","Sedative"], sys:["Digestive System","Nervous System","Integumentary System"], chakra:["Solar Plexus","Heart"] },
+  "mugwort":         { fn:["Nervine","Emmenagogue","Digestive bitter","Carminative","Diaphoretic"], sys:["Nervous System","Digestive System","Reproductive System"], chakra:["Third Eye","Crown"] },
+  "sage (garden)":   { fn:["Antimicrobial","Antioxidant","Anti-inflammatory","Cognitive support","Astringent","Carminative"], sys:["Nervous System","Digestive System","Respiratory System","Endocrine System"], chakra:["Throat","Third Eye"] },
+  "mint / peppermint": { fn:["Carminative","Analgesic","Antimicrobial","Decongestant","Antispasmodic","Stimulant"], sys:["Digestive System","Respiratory System","Nervous System"], chakra:["Throat","Solar Plexus"] },
+  "rose":            { fn:["Anti-inflammatory","Antioxidant","Astringent","Nervine","Emmenagogue"], sys:["Cardiovascular System","Reproductive System","Integumentary System","Nervous System"], chakra:["Heart"] },
+  "basil":           { fn:["Antimicrobial","Carminative","Adaptogen","Anti-inflammatory","Antioxidant"], sys:["Digestive System","Nervous System","Immune System"], chakra:["Heart","Solar Plexus"] },
+  "cinnamon":        { fn:["Circulatory stimulant","Antimicrobial","Anti-inflammatory","Hypoglycemic","Carminative"], sys:["Cardiovascular System","Digestive System","Endocrine System","Immune System"], chakra:["Root","Solar Plexus","Sacral"] },
+  "lemon balm":      { fn:["Nervine","Carminative","Antiviral","Antispasmodic","Cognitive support"], sys:["Nervous System","Digestive System"], chakra:["Heart","Solar Plexus"] },
+  "thyme":           { fn:["Antimicrobial","Expectorant","Antispasmodic","Antioxidant","Decongestant"], sys:["Respiratory System","Immune System","Digestive System"], chakra:["Throat","Solar Plexus"] },
+  "bay leaf":        { fn:["Antimicrobial","Carminative","Anti-inflammatory","Antioxidant"], sys:["Digestive System","Respiratory System","Musculoskeletal System"], chakra:["Solar Plexus","Third Eye"] },
+  "cedar":           { fn:["Antimicrobial","Expectorant","Antifungal","Circulatory stimulant"], sys:["Respiratory System","Lymphatic System","Integumentary System"], chakra:["Root","Crown"] },
+  "dill":            { fn:["Carminative","Antispasmodic","Galactagogue","Diuretic"], sys:["Digestive System","Reproductive System"], chakra:["Solar Plexus"] },
+  "clove":           { fn:["Analgesic","Antimicrobial","Anti-inflammatory","Antioxidant","Carminative"], sys:["Digestive System","Immune System","Musculoskeletal System"], chakra:["Root","Solar Plexus"] },
+  "comfrey":         { fn:["Vulnerary","Anti-inflammatory","Astringent","Demulcent"], sys:["Musculoskeletal System","Integumentary System","Digestive System"], chakra:["Root"] },
+  "valerian":        { fn:["Sedative","Nervine","Antispasmodic","Anxiolytic","Analgesic"], sys:["Nervous System","Musculoskeletal System","Cardiovascular System"], chakra:["Root","Crown"] },
+  "elderflower":     { fn:["Diaphoretic","Expectorant","Anti-inflammatory","Antiviral","Decongestant","Immune stimulant"], sys:["Respiratory System","Immune System","Lymphatic System"], chakra:["Heart","Throat"] },
+  "nettle":          { fn:["Nutritive","Diuretic","Anti-inflammatory","Antihistamine","Astringent"], sys:["Urinary System","Musculoskeletal System","Endocrine System","Immune System","Integumentary System"], chakra:["Root","Solar Plexus"] },
+  "passionflower":   { fn:["Nervine","Sedative","Antispasmodic","Anxiolytic","Analgesic"], sys:["Nervous System","Cardiovascular System"], chakra:["Crown","Third Eye"] },
+  "yarrow":          { fn:["Hemostatic","Diaphoretic","Anti-inflammatory","Antimicrobial","Astringent","Diuretic"], sys:["Cardiovascular System","Urinary System","Reproductive System","Integumentary System"], chakra:["Solar Plexus","Heart"] },
+  "frankincense":    { fn:["Anti-inflammatory","Antioxidant","Antimicrobial","Analgesic","Expectorant"], sys:["Respiratory System","Immune System","Musculoskeletal System","Nervous System"], chakra:["Third Eye","Crown"] },
+  "myrrh":           { fn:["Antimicrobial","Anti-inflammatory","Astringent","Vulnerary","Expectorant"], sys:["Respiratory System","Immune System","Digestive System","Integumentary System"], chakra:["Root","Crown"] },
+  "hyssop":          { fn:["Expectorant","Antispasmodic","Antimicrobial","Carminative","Diaphoretic"], sys:["Respiratory System","Digestive System","Lymphatic System"], chakra:["Throat","Third Eye"] },
+  "vervain":         { fn:["Nervine","Antispasmodic","Diaphoretic","Hepatic","Anxiolytic"], sys:["Nervous System","Digestive System","Cardiovascular System"], chakra:["Third Eye","Throat"] },
+  "violet":          { fn:["Demulcent","Expectorant","Anti-inflammatory","Vulnerary","Lymphatic"], sys:["Respiratory System","Lymphatic System","Integumentary System"], chakra:["Heart","Crown"] },
+  "hawthorn":        { fn:["Cardiotonic","Antioxidant","Hypotensive","Antispasmodic","Adaptogen"], sys:["Cardiovascular System","Nervous System"], chakra:["Heart"] },
+  "dandelion":       { fn:["Diuretic","Hepatic","Nutritive","Cholagogue","Prebiotic"], sys:["Digestive System","Urinary System","Lymphatic System","Endocrine System"], chakra:["Solar Plexus","Root"] },
+  "calendula":       { fn:["Vulnerary","Anti-inflammatory","Antimicrobial","Antifungal","Lymphatic"], sys:["Integumentary System","Lymphatic System","Digestive System","Reproductive System"], chakra:["Sacral","Solar Plexus"] },
+  "st. john's wort": { fn:["Antidepressant","Nervine","Anti-inflammatory","Antiviral","Analgesic"], sys:["Nervous System","Musculoskeletal System","Integumentary System"], chakra:["Solar Plexus","Third Eye"] },
+  "eucalyptus":      { fn:["Expectorant","Antimicrobial","Decongestant","Analgesic","Anti-inflammatory"], sys:["Respiratory System","Immune System","Musculoskeletal System"], chakra:["Throat","Solar Plexus"] },
+  "ginger":          { fn:["Carminative","Circulatory stimulant","Anti-inflammatory","Antiemetic","Antispasmodic"], sys:["Digestive System","Cardiovascular System","Musculoskeletal System","Immune System"], chakra:["Root","Solar Plexus","Sacral"] },
+  "rosehip":         { fn:["Antioxidant","Nutritive","Immune stimulant","Anti-inflammatory"], sys:["Immune System","Integumentary System","Musculoskeletal System"], chakra:["Heart","Sacral"] },
+  "skullcap":        { fn:["Nervine","Antispasmodic","Sedative","Anxiolytic","Anti-inflammatory"], sys:["Nervous System","Musculoskeletal System","Cardiovascular System"], chakra:["Third Eye","Crown"] },
+  "ashwagandha":     { fn:["Adaptogen","Nervine","Immune modulator","Anti-inflammatory","Cognitive support"], sys:["Nervous System","Endocrine System","Immune System","Musculoskeletal System","Reproductive System"], chakra:["Root","Solar Plexus","Crown"] },
+  "turmeric":        { fn:["Anti-inflammatory","Antioxidant","Hepatic","Immune modulator","Cholagogue"], sys:["Digestive System","Musculoskeletal System","Cardiovascular System","Immune System","Endocrine System"], chakra:["Solar Plexus","Root"] },
+  "vanilla":         { fn:["Nervine","Antioxidant","Carminative"], sys:["Nervous System","Digestive System"], chakra:["Sacral","Heart"] },
+  "vetiver":         { fn:["Nervine","Sedative","Grounding","Anti-inflammatory"], sys:["Nervous System","Musculoskeletal System"], chakra:["Root"] },
+  "white willow":    { fn:["Analgesic","Anti-inflammatory","Antipyretic","Antispasmodic"], sys:["Musculoskeletal System","Cardiovascular System","Nervous System"], chakra:["Sacral","Root"] },
+  "wormwood":        { fn:["Digestive bitter","Antimicrobial","Carminative","Antiparasitic"], sys:["Digestive System","Nervous System"], chakra:["Third Eye"] },
+  "motherwort":      { fn:["Cardiotonic","Nervine","Antispasmodic","Emmenagogue","Anxiolytic"], sys:["Cardiovascular System","Reproductive System","Nervous System"], chakra:["Heart","Solar Plexus"] },
+  "mullein":         { fn:["Expectorant","Demulcent","Antispasmodic","Antimicrobial"], sys:["Respiratory System","Lymphatic System"], chakra:["Throat","Root"] },
+  "jasmine":         { fn:["Nervine","Antidepressant","Antispasmodic","Emmenagogue"], sys:["Nervous System","Reproductive System","Integumentary System"], chakra:["Heart","Sacral","Crown"] },
+  "elderberry":      { fn:["Immune stimulant","Antiviral","Antioxidant","Diaphoretic"], sys:["Immune System","Respiratory System","Cardiovascular System"], chakra:["Root","Heart"] },
+  "licorice root":   { fn:["Demulcent","Expectorant","Adaptogen","Anti-inflammatory","Hepatic"], sys:["Respiratory System","Digestive System","Endocrine System","Immune System"], chakra:["Solar Plexus","Throat"] },
+  "patchouli":       { fn:["Grounding","Antifungal","Antimicrobial","Anti-inflammatory"], sys:["Integumentary System","Nervous System","Endocrine System"], chakra:["Root","Sacral"] },
+  "star anise":      { fn:["Carminative","Antispasmodic","Antimicrobial","Expectorant"], sys:["Digestive System","Respiratory System"], chakra:["Third Eye","Throat"] },
+  "sandalwood":      { fn:["Nervine","Antiseptic","Astringent","Antispasmodic"], sys:["Nervous System","Urinary System","Respiratory System","Integumentary System"], chakra:["Crown","Third Eye","Root"] },
+  "spearmint":       { fn:["Carminative","Antispasmodic","Nervine","Decongestant"], sys:["Digestive System","Respiratory System","Nervous System"], chakra:["Heart","Throat"] },
+  "raspberry leaf":  { fn:["Astringent","Nutritive","Antispasmodic","Uterine tonic"], sys:["Reproductive System","Digestive System","Musculoskeletal System"], chakra:["Sacral","Root"] },
+  "orange peel":     { fn:["Carminative","Antioxidant","Antimicrobial","Circulatory stimulant"], sys:["Digestive System","Immune System","Cardiovascular System"], chakra:["Sacral","Solar Plexus"] },
+  "hibiscus":        { fn:["Antioxidant","Hypotensive","Diuretic","Anti-inflammatory"], sys:["Cardiovascular System","Urinary System","Immune System"], chakra:["Heart","Sacral"] },
+  "plantain":        { fn:["Vulnerary","Demulcent","Astringent","Anti-inflammatory","Expectorant"], sys:["Integumentary System","Respiratory System","Digestive System"], chakra:["Root","Heart"] },
+  "anise":           { fn:["Carminative","Expectorant","Antispasmodic","Galactagogue"], sys:["Digestive System","Respiratory System","Reproductive System"], chakra:["Third Eye","Throat"] },
+  "angelica":        { fn:["Carminative","Expectorant","Diaphoretic","Circulatory stimulant","Emmenagogue"], sys:["Digestive System","Respiratory System","Reproductive System","Cardiovascular System"], chakra:["Root","Solar Plexus"] },
+  "hops":            { fn:["Sedative","Nervine","Antispasmodic","Digestive bitter"], sys:["Nervous System","Digestive System"], chakra:["Crown","Third Eye"] },
+  "horehound":       { fn:["Expectorant","Antispasmodic","Antimicrobial","Digestive bitter"], sys:["Respiratory System","Digestive System"], chakra:["Throat"] },
+  "meadowsweet":     { fn:["Analgesic","Anti-inflammatory","Antacid","Carminative","Astringent"], sys:["Digestive System","Musculoskeletal System","Urinary System"], chakra:["Heart","Solar Plexus"] },
+  "marjoram":        { fn:["Carminative","Antispasmodic","Nervine","Antimicrobial","Analgesic"], sys:["Digestive System","Nervous System","Musculoskeletal System","Respiratory System"], chakra:["Heart","Solar Plexus"] },
+  "rue":             { fn:["Antispasmodic","Emmenagogue","Ophthalmic","Anti-inflammatory"], sys:["Reproductive System","Nervous System","Digestive System"], chakra:["Solar Plexus","Third Eye"] },
+  "pennyroyal":      { fn:["Emmenagogue","Carminative","Antispasmodic","Insect repellent"], sys:["Reproductive System","Digestive System"], chakra:["Root","Sacral"] },
+  "lemon verbena":   { fn:["Nervine","Carminative","Antispasmodic","Digestive bitter"], sys:["Nervous System","Digestive System"], chakra:["Solar Plexus","Throat"] },
+  "lotus":           { fn:["Nervine","Antioxidant","Adaptogen","Anti-inflammatory"], sys:["Nervous System","Endocrine System","Cardiovascular System"], chakra:["Crown","Third Eye","Sacral"] },
+  "juniper":         { fn:["Diuretic","Antimicrobial","Carminative","Anti-inflammatory"], sys:["Urinary System","Digestive System","Musculoskeletal System","Respiratory System"], chakra:["Root","Sacral"] },
+  "pine":            { fn:["Expectorant","Antimicrobial","Antioxidant","Circulatory stimulant"], sys:["Respiratory System","Musculoskeletal System","Immune System"], chakra:["Root","Heart"] },
+  "calendula":       { fn:["Vulnerary","Anti-inflammatory","Antifungal","Lymphatic","Emmenagogue"], sys:["Integumentary System","Lymphatic System","Reproductive System","Digestive System"], chakra:["Sacral","Solar Plexus"] },
+  "nutmeg":          { fn:["Carminative","Analgesic","Anti-inflammatory","Nervine"], sys:["Digestive System","Nervous System","Musculoskeletal System"], chakra:["Third Eye","Solar Plexus"] },
+  "oregano":         { fn:["Antimicrobial","Antioxidant","Anti-inflammatory","Carminative","Immune stimulant"], sys:["Immune System","Digestive System","Respiratory System"], chakra:["Solar Plexus","Root"] },
+  "poppy":           { fn:["Sedative","Analgesic","Antispasmodic","Nervine"], sys:["Nervous System","Musculoskeletal System"], chakra:["Crown","Sacral"] },
+  "saffron":         { fn:["Antidepressant","Anti-inflammatory","Antioxidant","Emmenagogue"], sys:["Nervous System","Endocrine System","Reproductive System"], chakra:["Sacral","Solar Plexus","Crown"] },
+  "tobacco":         { fn:["Nervine","Antimicrobial","Insect repellent"], sys:["Nervous System"], chakra:["Root","Crown"] },
+  "sweetgrass":      { fn:["Antimicrobial","Anti-inflammatory","Nervine"], sys:["Nervous System","Respiratory System"], chakra:["Heart","Crown"] },
+  "solomon's seal":  { fn:["Demulcent","Anti-inflammatory","Nutritive","Vulnerary"], sys:["Musculoskeletal System","Digestive System","Integumentary System"], chakra:["Root","Throat"] },
+  "rowan":           { fn:["Antioxidant","Immune stimulant","Anti-inflammatory","Astringent"], sys:["Immune System","Musculoskeletal System"], chakra:["Root","Crown"] },
+  "rue":             { fn:["Antispasmodic","Emmenagogue","Anti-inflammatory"], sys:["Reproductive System","Nervous System"], chakra:["Solar Plexus"] },
+  "strawberry":      { fn:["Antioxidant","Nutritive","Astringent","Diuretic"], sys:["Cardiovascular System","Digestive System","Urinary System"], chakra:["Heart","Sacral"] },
+  "agrimony":        { fn:["Astringent","Hepatic","Diuretic","Anti-inflammatory"], sys:["Digestive System","Urinary System","Lymphatic System"], chakra:["Solar Plexus"] },
+  "acacia":          { fn:["Astringent","Antimicrobial","Demulcent"], sys:["Respiratory System","Digestive System"], chakra:["Crown","Third Eye"] },
+  "bergamot":        { fn:["Antidepressant","Antispasmodic","Antimicrobial","Nervine","Carminative"], sys:["Nervous System","Digestive System","Integumentary System"], chakra:["Solar Plexus","Heart"] },
+  "lilac":           { fn:["Antioxidant","Antimicrobial","Antispasmodic"], sys:["Nervous System","Integumentary System"], chakra:["Third Eye","Crown"] },
+  "honeysuckle":     { fn:["Anti-inflammatory","Antimicrobial","Antiviral","Expectorant"], sys:["Respiratory System","Immune System","Lymphatic System"], chakra:["Heart","Third Eye"] },
+  "lemon":           { fn:["Antioxidant","Antimicrobial","Carminative","Diuretic","Immune stimulant"], sys:["Immune System","Digestive System","Urinary System","Lymphatic System"], chakra:["Solar Plexus","Sacral"] },
+  "allspice":        { fn:["Carminative","Analgesic","Anti-inflammatory","Antioxidant"], sys:["Digestive System","Musculoskeletal System"], chakra:["Root","Sacral"] },
+  "apple":           { fn:["Antioxidant","Nutritive","Prebiotic","Demulcent"], sys:["Digestive System","Cardiovascular System","Immune System"], chakra:["Heart","Root"] },
+  "lungwort":        { fn:["Expectorant","Demulcent","Anti-inflammatory","Astringent"], sys:["Respiratory System","Lymphatic System"], chakra:["Heart","Throat"] },
+  "high john the conqueror": { fn:["Adaptogen","Nervine","Stimulant"], sys:["Nervous System","Endocrine System"], chakra:["Solar Plexus","Root"] },
+  "orris root":      { fn:["Expectorant","Diuretic","Anti-inflammatory"], sys:["Respiratory System","Urinary System"], chakra:["Sacral","Heart"] },
+  "peony":           { fn:["Antispasmodic","Anti-inflammatory","Analgesic","Sedative"], sys:["Reproductive System","Nervous System","Musculoskeletal System"], chakra:["Root","Sacral"] },
+  "garlic":          { fn:["Antimicrobial","Antiviral","Immune stimulant","Hypotensive","Antifungal","Anti-inflammatory"], sys:["Immune System","Cardiovascular System","Respiratory System","Digestive System"], chakra:["Root","Solar Plexus"] },
+  "heather":         { fn:["Diuretic","Antioxidant","Antiseptic","Astringent"], sys:["Urinary System","Integumentary System"], chakra:["Crown","Heart"] },
+  "holly":           { fn:["Diuretic","Antioxidant","Anti-inflammatory"], sys:["Urinary System","Musculoskeletal System"], chakra:["Root","Heart"] },
+  "lovage":          { fn:["Diuretic","Carminative","Expectorant","Anti-inflammatory"], sys:["Urinary System","Digestive System","Respiratory System"], chakra:["Solar Plexus","Sacral"] },
+  "mistletoe":       { fn:["Hypotensive","Immunomodulator","Antispasmodic","Nervine"], sys:["Cardiovascular System","Nervous System","Immune System"], chakra:["Heart","Crown"] },
+  "alfalfa":         { fn:["Nutritive","Diuretic","Anti-inflammatory","Phytoestrogenic"], sys:["Musculoskeletal System","Endocrine System","Digestive System"], chakra:["Root","Heart"] },
+  "orris root":      { fn:["Expectorant","Diuretic","Astringent"], sys:["Respiratory System","Urinary System"], chakra:["Sacral","Heart"] }
+};
+
+// ============================================================
+// HERB SORT STATE
+// ============================================================
+var herbSortMode = "alpha";
+var herbActiveFilter = null;
+
+// Category definitions for grouped views
+var herbFunctions = [
+  "Adaptogen","Analgesic","Anti-inflammatory","Antidepressant","Antifungal","Antimicrobial","Antiparasitic",
+  "Antispasmodic","Antiviral","Antioxidant","Anxiolytic","Astringent","Cardiotonic","Carminative",
+  "Cholagogue","Circulatory stimulant","Cognitive support","Decongestant","Demulcent","Digestive bitter",
+  "Diaphoretic","Diuretic","Emmenagogue","Expectorant","Galactagogue","Grounding","Hemostatic",
+  "Hepatic","Hypoglycemic","Hypotensive","Immune modulator","Immune stimulant","Immunomodulator",
+  "Lymphatic","Nervine","Nutritive","Prebiotic","Sedative","Stimulant","Uterine tonic","Vulnerary"
+];
+
+var herbSystems = [
+  "Cardiovascular System","Digestive System","Endocrine System","Immune System",
+  "Integumentary System","Lymphatic System","Musculoskeletal System","Nervous System",
+  "Reproductive System","Respiratory System","Urinary System"
+];
+
+var herbChakras = [
+  { name:"Root", symbol:"🔴", sanskrit:"Muladhara" },
+  { name:"Sacral", symbol:"🟠", sanskrit:"Svadhisthana" },
+  { name:"Solar Plexus", symbol:"🟡", sanskrit:"Manipura" },
+  { name:"Heart", symbol:"💚", sanskrit:"Anahata" },
+  { name:"Throat", symbol:"🔵", sanskrit:"Vishuddha" },
+  { name:"Third Eye", symbol:"🟣", sanskrit:"Ajna" },
+  { name:"Crown", symbol:"⚪", sanskrit:"Sahasrara" }
+];
+
+var chakraColors = {
+  "Root": "#c0392b", "Sacral": "#e67e22", "Solar Plexus": "#f1c40f",
+  "Heart": "#27ae60", "Throat": "#2980b9", "Third Eye": "#8e44ad", "Crown": "#9b59b6"
+};
+
+function getMeta(herbName) {
+  var key = herbName.toLowerCase().trim();
+  return herbMeta[key] || { fn:[], sys:[], chakra:[] };
+}
+
+function setHerbSort(mode, btn) {
+  herbSortMode = mode;
+  herbActiveFilter = null;
+  // Update button styles
+  document.querySelectorAll(".herb-sort-btn").forEach(function(b) {
+    b.style.color = "var(--sage-muted)";
+    b.style.background = "rgba(107,124,90,0.12)";
+    b.style.borderColor = "rgba(107,124,90,0.4)";
+  });
+  btn.style.color = "var(--gold-light)";
+  btn.style.background = "rgba(184,134,11,0.18)";
+  btn.style.borderColor = "var(--gold)";
+
+  var azNav = document.getElementById("herb-az-nav");
+  if (azNav) azNav.style.display = (mode === "alpha") ? "flex" : "none";
+  renderHerbs();
+}
+
+function renderHerbFilterPills(items, colorFn) {
+  var bar = document.getElementById("herb-filter-bar");
+  if (!bar) return;
+  bar.style.display = "flex";
+  bar.innerHTML = items.map(function(item) {
+    var label = typeof item === "string" ? item : item.name + " " + item.symbol;
+    var key   = typeof item === "string" ? item : item.name;
+    var isActive = (herbActiveFilter === key);
+    var col = colorFn ? colorFn(key) : "var(--earth)";
+    return '<button onclick="filterHerbs(\'' + key.replace(/'/g,"\\'")+  '\')" style="font-family:Cinzel,serif;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;' +
+      'color:' + (isActive ? "#fff" : col) + ';' +
+      'background:' + (isActive ? col : "rgba(255,255,255,0.2)") + ';' +
+      'border:1px solid ' + col + ';' +
+      'border-radius:20px;padding:4px 12px;cursor:pointer;transition:all 0.2s;margin:2px;">' +
+      label + (isActive ? " ✕" : "") + '</button>';
+  }).join("");
+}
+
+function filterHerbs(key) {
+  if (herbActiveFilter === key) {
+    herbActiveFilter = null;
+  } else {
+    herbActiveFilter = key;
+  }
+  renderHerbs();
+}
+
 function renderHerbs() {
   herbs.sort(function(a,b){ return a.name.localeCompare(b.name); });
   var grid = document.getElementById("herb-grid");
-  var nav = document.getElementById("herb-az-nav");
+  var nav  = document.getElementById("herb-az-nav");
+  var bar  = document.getElementById("herb-filter-bar");
   if (!grid) return;
 
-  // Build letter index
-  var letters = {};
-  herbs.forEach(function(h, i) {
-    var l = h.name[0].toUpperCase();
-    if (!letters[l]) letters[l] = i;
-  });
-
-  // Render A-Z nav
-  if (nav) {
-    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    nav.innerHTML = alphabet.map(function(l) {
-      if (letters[l] !== undefined) {
-        return '<button onclick="scrollToHerbLetter(\'' + l + '\')" style="font-family:Cinzel,serif;font-size:0.7rem;color:var(--earth-dark);background:rgba(184,134,11,0.15);border:1px solid var(--gold);border-radius:2px;padding:4px 7px;cursor:pointer;letter-spacing:0.05em;transition:all 0.15s;" onmouseover="this.style.background=\'rgba(184,134,11,0.35)\'" onmouseout="this.style.background=\'rgba(184,134,11,0.15)\'">' + l + '</button>';
-      } else {
-        return '<span style="font-family:Cinzel,serif;font-size:0.7rem;color:var(--parchment-shadow);padding:4px 7px;opacity:0.4;">' + l + '</span>';
+  // --- ALPHA MODE ---
+  if (herbSortMode === "alpha") {
+    if (bar) bar.style.display = "none";
+    if (nav) {
+      nav.style.display = "flex";
+      var letters = {};
+      herbs.forEach(function(h,i){ var l=h.name[0].toUpperCase(); if(!letters[l]) letters[l]=i; });
+      var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      nav.innerHTML = alphabet.map(function(l) {
+        if (letters[l] !== undefined) {
+          return '<button onclick="scrollToHerbLetter(\'' + l + '\')" style="font-family:Cinzel,serif;font-size:0.7rem;color:var(--earth-dark);background:rgba(184,134,11,0.15);border:1px solid var(--gold);border-radius:2px;padding:4px 7px;cursor:pointer;letter-spacing:0.05em;transition:all 0.15s;" onmouseover="this.style.background=\'rgba(184,134,11,0.35)\'" onmouseout="this.style.background=\'rgba(184,134,11,0.15)\'">' + l + '</button>';
+        } else {
+          return '<span style="font-family:Cinzel,serif;font-size:0.7rem;color:var(--parchment-shadow);padding:4px 7px;opacity:0.4;">' + l + '</span>';
+        }
+      }).join("");
+    }
+    var html = "";
+    var currentLetter = "";
+    herbs.forEach(function(h,i) {
+      var l = h.name[0].toUpperCase();
+      if (l !== currentLetter) {
+        if (currentLetter !== "") html += '</div>';
+        html += '<div id="herb-letter-' + l + '" style="width:100%;grid-column:1/-1;padding:8px 0 4px;border-bottom:1px solid var(--parchment-shadow);margin:12px 0 6px;"><span style="font-family:Cinzel Decorative,cursive;font-size:1rem;color:var(--earth-dark);">' + l + '</span></div>';
+        html += '<div class="herb-grid" style="margin-bottom:0;">';
+        currentLetter = l;
       }
-    }).join("");
+      var meta = getMeta(h.name);
+      var tags = "";
+      if (meta.sys.length) tags += '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px;">' + meta.sys.slice(0,2).map(function(s){ return '<span style="font-size:0.58rem;font-family:Cinzel,serif;background:rgba(107,124,90,0.15);border:1px solid rgba(107,124,90,0.35);border-radius:10px;padding:2px 7px;color:var(--moss);">' + s.replace(" System","") + '</span>'; }).join("") + '</div>';
+      html += '<div class="herb-card" onclick="openHerb(' + i + ')">' +
+        '<div class="herb-name">' + h.name + '</div>' +
+        '<div class="herb-element">\u2B21 ' + h.element + ' \u00B7 ' + h.planet + '</div>' +
+        '<div class="herb-uses">' + h.uses.substring(0, 80) + '&hellip;</div>' +
+        tags + '</div>';
+    });
+    if (currentLetter !== "") html += '</div>';
+    grid.innerHTML = html;
+    return;
   }
 
-  // Render herbs grouped by letter with anchor divs
+  // --- FUNCTION / SYSTEM / CHAKRA MODES ---
+  if (nav) nav.style.display = "none";
+
+  var groups, getGroupKey, colorFn, pillItems;
+
+  if (herbSortMode === "function") {
+    groups = herbFunctions;
+    getGroupKey = function(h) { var m=getMeta(h.name); return m.fn; };
+    colorFn = function() { return "var(--earth)"; };
+    pillItems = herbFunctions;
+  } else if (herbSortMode === "system") {
+    groups = herbSystems;
+    getGroupKey = function(h) { var m=getMeta(h.name); return m.sys; };
+    colorFn = function() { return "var(--moss)"; };
+    pillItems = herbSystems;
+  } else if (herbSortMode === "chakra") {
+    groups = herbChakras.map(function(c){return c.name;});
+    getGroupKey = function(h) { var m=getMeta(h.name); return m.chakra; };
+    colorFn = function(k) { return chakraColors[k] || "var(--sage)"; };
+    pillItems = herbChakras;
+  }
+
+  // Render filter pills
+  renderHerbFilterPills(pillItems, colorFn);
+
+  // Build grouped herb list
   var html = "";
-  var currentLetter = "";
-  herbs.forEach(function(h, i) {
-    var l = h.name[0].toUpperCase();
-    if (l !== currentLetter) {
-      if (currentLetter !== "") html += '</div>'; // close previous grid
-      html += '<div id="herb-letter-' + l + '" style="width:100%;grid-column:1/-1;padding:8px 0 4px;border-bottom:1px solid var(--parchment-shadow);margin:12px 0 6px;">' +
-        '<span style="font-family:Cinzel Decorative,cursive;font-size:1rem;color:var(--earth-dark);">' + l + '</span></div>';
-      html += '<div class="herb-grid" style="margin-bottom:0;">';
-      currentLetter = l;
+  var displayGroups = herbActiveFilter ? [herbActiveFilter] : groups;
+
+  displayGroups.forEach(function(groupName) {
+    var groupHerbs = herbs.filter(function(h) {
+      var keys = getGroupKey(h);
+      return keys && keys.indexOf(groupName) !== -1;
+    });
+    if (!groupHerbs.length) return;
+
+    var chakraInfo = null;
+    if (herbSortMode === "chakra") {
+      chakraInfo = herbChakras.find(function(c){return c.name===groupName;});
     }
-    html += '<div class="herb-card" onclick="openHerb(' + i + ')">' +
-      '<div class="herb-name">' + h.name + '</div>' +
-      '<div class="herb-element">\u2B21 ' + h.element + ' \u00B7 ' + h.planet + '</div>' +
-      '<div class="herb-uses">' + h.uses.substring(0, 80) + '&hellip;</div>' +
-      '</div>';
+    var colStyle = "border-left:3px solid " + (colorFn ? colorFn(groupName) : "var(--sage)") + ";";
+    var headerLabel = chakraInfo ? (chakraInfo.symbol + " " + groupName + " — " + chakraInfo.sanskrit) : groupName;
+
+    html += '<div style="margin-top:20px;margin-bottom:6px;">' +
+      '<div style="font-family:\'Cinzel\',serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:' + (colorFn ? colorFn(groupName) : "var(--earth)") + ';padding:8px 12px;background:rgba(255,255,255,0.25);' + colStyle + 'border-radius:0 3px 3px 0;margin-bottom:10px;">' + headerLabel + ' <span style="font-family:Lora,serif;font-style:italic;font-size:0.7rem;color:var(--ink-faded);text-transform:none;letter-spacing:0;">(' + groupHerbs.length + ' herbs)</span></div>' +
+      '<div class="herb-grid" style="margin-bottom:0;">';
+
+    groupHerbs.forEach(function(h) {
+      var i = herbs.indexOf(h);
+      var meta = getMeta(h.name);
+      var accent = colorFn ? colorFn(groupName) : "var(--sage)";
+      html += '<div class="herb-card" onclick="openHerb(' + i + ')" style="border-left:2px solid ' + accent + ';">' +
+        '<div class="herb-name">' + h.name + '</div>' +
+        '<div class="herb-element">\u2B21 ' + h.element + ' \u00B7 ' + h.planet + '</div>' +
+        '<div class="herb-uses">' + h.uses.substring(0, 75) + '&hellip;</div>' +
+        (meta.fn.length ? '<div style="margin-top:5px;font-size:0.6rem;font-family:Cinzel,serif;color:var(--ink-faded);letter-spacing:0.05em;">' + meta.fn.slice(0,3).join(" · ") + '</div>' : '') +
+        '</div>';
+    });
+    html += '</div></div>';
   });
-  if (currentLetter !== "") html += '</div>';
+
+  if (!html) html = '<p style="font-size:0.88rem;color:var(--ink-faded);font-style:italic;padding:20px;">No herbs found for this category.</p>';
   grid.innerHTML = html;
 }
 
@@ -1779,13 +2047,38 @@ function openSimmer(i) {
 
 function openHerb(i) {
   var h = herbs[i];
+  var meta = getMeta(h.name);
   var inner = document.getElementById("overlay-inner");
+
+  // Build body system pills
+  var sysPills = meta.sys.length
+    ? meta.sys.map(function(s){ return '<span style="display:inline-block;font-family:Cinzel,serif;font-size:0.62rem;letter-spacing:0.1em;background:rgba(74,99,64,0.15);border:1px solid var(--sage);border-radius:20px;padding:3px 10px;margin:3px 3px 3px 0;color:var(--moss);">' + s + '</span>'; }).join("")
+    : '<em style="font-size:0.82rem;color:var(--ink-faded);">No data recorded</em>';
+
+  // Build bodily function pills
+  var fnPills = meta.fn.length
+    ? meta.fn.map(function(f){ return '<span style="display:inline-block;font-family:Cinzel,serif;font-size:0.62rem;letter-spacing:0.08em;background:rgba(122,92,58,0.12);border:1px solid var(--border);border-radius:20px;padding:3px 10px;margin:3px 3px 3px 0;color:var(--earth-dark);">' + f + '</span>'; }).join("")
+    : '<em style="font-size:0.82rem;color:var(--ink-faded);">No data recorded</em>';
+
+  // Build chakra pills with color
+  var chakraPills = meta.chakra.length
+    ? meta.chakra.map(function(c){
+        var col = chakraColors[c] || "var(--sage)";
+        var ci = herbChakras.find(function(x){return x.name===c;});
+        var sym = ci ? ci.symbol : "◎";
+        return '<span style="display:inline-block;font-family:Cinzel,serif;font-size:0.62rem;letter-spacing:0.08em;background:' + col + '22;border:1px solid ' + col + ';border-radius:20px;padding:3px 10px;margin:3px 3px 3px 0;color:' + col + ';">' + sym + ' ' + c + '</span>';
+      }).join("")
+    : '<em style="font-size:0.82rem;color:var(--ink-faded);">No data recorded</em>';
+
   inner.innerHTML =
     '<div class="overlay-tag">Herb Glossary</div>' +
     '<div class="overlay-title">' + h.name + '</div>' +
     '<p style="font-size:0.8rem;color:var(--sage);font-style:italic;margin-bottom:4px;">' + h.latin + '</p>' +
     '<div class="overlay-divider"></div>' +
     '<div class="overlay-section"><div class="overlay-section-title">Correspondences</div><ul class="overlay-list"><li><strong>Element:</strong> ' + h.element + '</li><li><strong>Planet:</strong> ' + h.planet + '</li><li><strong>Season:</strong> ' + h.season + '</li></ul></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Body Systems Supported</div><div style="padding:4px 0;">' + sysPills + '</div></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Bodily Functions</div><div style="padding:4px 0;">' + fnPills + '</div></div>' +
+    '<div class="overlay-section"><div class="overlay-section-title">Chakra Affinity</div><div style="padding:4px 0;">' + chakraPills + '</div></div>' +
     '<div class="overlay-section"><div class="overlay-section-title">Magical and Energetic Uses</div><p style="font-size:0.88rem;color:var(--ink);line-height:1.9;">' + h.uses + '</p></div>' +
     (h.bonus ? '<div class="overlay-section"><div class="overlay-section-title">Practical Tip</div><div class="overlay-affirmation">' + h.bonus + '</div></div>' : '');
   document.getElementById("overlay").classList.add("open");
