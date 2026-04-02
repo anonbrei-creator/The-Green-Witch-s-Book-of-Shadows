@@ -1791,6 +1791,50 @@ var herbFunctions = [
   "Lymphatic","Nervine","Nutritive","Prebiotic","Sedative","Stimulant","Uterine tonic","Vulnerary"
 ];
 
+var herbFunctionDesc = {
+  "Adaptogen": "Helps the body regulate its stress response; builds resilience over time rather than forcing a specific outcome.",
+  "Analgesic": "Relieves pain without causing loss of consciousness.",
+  "Anti-inflammatory": "Reduces inflammation in tissues, joints, or organs.",
+  "Antidepressant": "Supports mood by influencing neurotransmitter activity or nervous system tone.",
+  "Antifungal": "Inhibits or kills fungal growth on or in the body.",
+  "Antimicrobial": "Broadly fights bacteria, viruses, or fungi.",
+  "Antiparasitic": "Destroys or expels internal parasites.",
+  "Antispasmodic": "Relaxes involuntary muscle cramps and spasms — digestive, uterine, or respiratory.",
+  "Antiviral": "Interferes with viral replication or helps the immune system fight viral infections.",
+  "Antioxidant": "Neutralizes free radicals to protect cells from oxidative damage and slow aging.",
+  "Anxiolytic": "Reduces anxiety without necessarily inducing sleep.",
+  "Astringent": "Tightens and tones tissues; reduces excessive secretions, bleeding, or discharge.",
+  "Cardiotonic": "Strengthens and tones heart muscle function without overstimulating it.",
+  "Carminative": "Relieves gas and bloating; relaxes the gut wall and helps expel trapped air.",
+  "Cholagogue": "Stimulates bile flow from the gallbladder into the small intestine; supports fat digestion and liver detox.",
+  "Circulatory stimulant": "Increases blood flow and peripheral circulation; warms cold extremities.",
+  "Cognitive support": "Improves memory, focus, concentration, or protects against neurodegeneration.",
+  "Decongestant": "Reduces swelling and mucus in nasal passages and sinuses.",
+  "Demulcent": "Soothes and coats irritated or inflamed mucous membranes — throat, gut, urinary tract.",
+  "Digestive bitter": "Stimulates digestive secretions (stomach acid, bile, enzymes) by activating bitter taste receptors.",
+  "Diaphoretic": "Promotes sweating; helps the body clear toxins and pathogens through the skin, especially during fever.",
+  "Diuretic": "Increases urine output; supports kidney function and helps clear excess fluid.",
+  "Emmenagogue": "Stimulates or regulates menstrual flow; some also tone the uterus.",
+  "Expectorant": "Loosens and helps expel mucus from the respiratory tract.",
+  "Galactagogue": "Promotes breast milk production in nursing people.",
+  "Grounding": "Anchors nervous system activation; promotes presence and embodiment.",
+  "Hemostatic": "Stops or slows bleeding, either internally or topically.",
+  "Hepatic": "Supports liver function — detoxification, bile production, enzyme activity.",
+  "Hypoglycemic": "Helps lower blood sugar levels; supports insulin sensitivity.",
+  "Hypotensive": "Reduces blood pressure.",
+  "Immune modulator": "Balances immune function — calms it when overactive, stimulates it when underactive.",
+  "Immune stimulant": "Actively ramps up immune response, especially useful at the onset of illness.",
+  "Immunomodulator": "Works broadly on immune regulation rather than simply stimulating or suppressing.",
+  "Lymphatic": "Supports lymph fluid movement, lymph node function, and waste clearance through the lymphatic system.",
+  "Nervine": "Nourishes, tones, and supports the nervous system. Can be calming, stimulating, or simply nutritive to nerve tissue.",
+  "Nutritive": "Rich in vitamins, minerals, or other nutrients that directly feed and rebuild tissues.",
+  "Prebiotic": "Feeds beneficial gut bacteria; supports a healthy microbiome.",
+  "Sedative": "Induces calm or sleep by slowing nervous system activity more strongly than a nervine.",
+  "Stimulant": "Increases energy, alertness, or the activity of a specific organ or system.",
+  "Uterine tonic": "Strengthens and tones uterine muscle tissue; supports reproductive health over time.",
+  "Vulnerary": "Promotes wound healing — speeds cell repair, reduces infection, and encourages tissue regeneration."
+};
+
 var herbSystems = [
   "Cardiovascular System","Digestive System","Endocrine System","Immune System",
   "Integumentary System","Lymphatic System","Musculoskeletal System","Nervous System",
@@ -1951,9 +1995,12 @@ function renderHerbs() {
     }
     var colStyle = "border-left:3px solid " + (colorFn ? colorFn(groupName) : "var(--sage)") + ";";
     var headerLabel = chakraInfo ? (chakraInfo.symbol + " " + groupName + " — " + chakraInfo.sanskrit) : groupName;
+    var fnDesc = (herbSortMode === "function" && herbFunctionDesc[groupName])
+      ? '<div style="font-family:Lora,serif;font-size:0.8rem;color:var(--ink-faded);font-style:italic;line-height:1.6;margin-top:5px;text-transform:none;letter-spacing:0;">' + herbFunctionDesc[groupName] + '</div>'
+      : "";
 
     html += '<div style="margin-top:20px;margin-bottom:6px;">' +
-      '<div style="font-family:\'Cinzel\',serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:' + (colorFn ? colorFn(groupName) : "var(--earth)") + ';padding:8px 12px;background:rgba(255,255,255,0.25);' + colStyle + 'border-radius:0 3px 3px 0;margin-bottom:10px;">' + headerLabel + ' <span style="font-family:Lora,serif;font-style:italic;font-size:0.7rem;color:var(--ink-faded);text-transform:none;letter-spacing:0;">(' + groupHerbs.length + ' herbs)</span></div>' +
+      '<div style="font-family:\'Cinzel\',serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:' + (colorFn ? colorFn(groupName) : "var(--earth)") + ';padding:8px 12px;background:rgba(255,255,255,0.25);' + colStyle + 'border-radius:0 3px 3px 0;margin-bottom:10px;">' + headerLabel + ' <span style="font-family:Lora,serif;font-style:italic;font-size:0.7rem;color:var(--ink-faded);text-transform:none;letter-spacing:0;">(' + groupHerbs.length + ' herbs)</span>' + fnDesc + '</div>' +
       '<div class="herb-grid" style="margin-bottom:0;">';
 
     groupHerbs.forEach(function(h) {
